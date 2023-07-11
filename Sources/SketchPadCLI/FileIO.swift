@@ -18,7 +18,7 @@
 import Foundation
 
 
-struct FileIO {
+enum FileIO {
    
     static func timeStamp() -> String {
         let formatter = DateFormatter()

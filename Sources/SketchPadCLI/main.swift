@@ -1,6 +1,12 @@
 import Foundation
 import ArgumentParser
 
+//TODO: AsyncParsableCommand
+
+//TARGET UI -
+//- sketchpad multiball -q 12 -o fileName
+//- sketchpad multiball -q 12 -o fileName.ext or -t ext
+
 //@available(macOS 10.15, macCatalyst 13, iOS 13, tvOS 13, watchOS 6, *)
 struct SketchPadCLI: ParsableCommand {
      static let configuration = CommandConfiguration(
@@ -8,8 +14,9 @@ struct SketchPadCLI: ParsableCommand {
         version: "0.0.1",
         subcommands: [
             multiball.self,
+            testBuilder.self
         ],
-        defaultSubcommand: multiball.self)
+        defaultSubcommand: testBuilder.self)
 
     init() { }
 }

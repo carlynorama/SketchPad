@@ -21,11 +21,11 @@ public func generateMultiBallUSDText(count:Int) -> String {
      let maxRadius = 2.0
     
      @StringBuilder func  makeMultiBall(count:Int) -> String {
-         let builder = USDAFileBuilder()
+         let builder = USDAFileBuilder_Orig()
          builder.generateHeader(defaultPrim:"blueSphere")
          builder.buildItem("blueSphere", "sphere_base", "sphere", 0, 0, 0, 1, 0, 0, 1)
 
-         for i in (0...count) {
+         for i in (0...count-1) {
              builder.buildItem(
                  "sphere_\(i)",
                  "sphere_base",
