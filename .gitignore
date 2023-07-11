@@ -1,0 +1,27 @@
+.DS_Store
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.swiftpm/config/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
+
+
+## ----------- added
+
+# VSCode
+.vscode
+
+# Secrets & Environment
+.env
+
+# Swift additional
+Package.resolved
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+```
