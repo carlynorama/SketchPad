@@ -11,7 +11,7 @@ import SketchPad
 
 
 extension SketchPadCLI {
-    struct multiball:AsyncParsableCommand {
+    struct multiball:ParsableCommand {
         
         static var configuration =
         CommandConfiguration(abstract: "Generate a USDA file that references sphere_base.usda like previous examples")
