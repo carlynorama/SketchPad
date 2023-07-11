@@ -5,11 +5,23 @@ import PackageDescription
 
 let package = Package(
     name: "SketchPad",
+    products: [
+        .library(name: "SketchPad", targets: ["SketchPad"]),
+        .executable(name: "sketchpad", targets: ["SketchPadCLI"])
+    ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.2")
+    ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .executableTarget(
-            name: "SketchPad",
-            path: "Sources"),
+         .target(
+            name: "SketchPad"
+         ),
+         .executableTarget(
+            name: "SketchPadCLI",
+            dependencies: [
+                "SketchPad",
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ]
+         )
     ]
 )

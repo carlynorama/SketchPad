@@ -65,3 +65,6 @@ __pycache__/
 * text=auto
 ```
 
+## References
+
+- https://github.com/apple/swift-package-manager/blob/main/Documentation/PackageDescription.md
