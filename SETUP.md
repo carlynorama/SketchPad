@@ -12,16 +12,18 @@ done 2023-07-11
         touch README.md
         swift package init --type executable
         touch .gitattributes
-        touch .env
+        #touch .env #<- not used every repo
         swift run
+        ## Update .gitignore and .gitattributes
         git add .
+
         git commit -m "hello project"
-        # Options for making a remote:
-        # https://cli.github.com/manual/gh_repo_create  (brew install gh)
+        ## Options for making a remote:
+        ## https://cli.github.com/manual/gh_repo_create  (brew install gh)
         #gh repo create $NAME --public
-        #git remote add origin $REPO_URL  #<- links an existing repo to git
+        #git remote add origin $REPO_URL  ## <- links an existing repo to git
         #git remote -v #checks to see if it worked
-        #Potential GOTCHAs - https://docs.github.com/en/authentication/troubleshooting-ssh/error-permission-denied-publickey#make-sure-you-have-a-key-that-is-being-used
+        ## Potential GOTCHAs - https://docs.github.com/en/authentication/troubleshooting-ssh/error-permission-denied-publickey#make-sure-you-have-a-key-that-is-being-used
         git push -u origin main
         ```
 
