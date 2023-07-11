@@ -1,4 +1,5 @@
-struct USDAFileBuilder {
+struct USDAFileBuilder_Orig {
+
 @StringBuilder func generateHeader(defaultPrim:String, metersPerUnit:Double = 1, upAxis:String = "Y", documentationNote:String? = nil) -> String {
     "#usda 1.0\n("
     "\tdefaultPrim = \"\(defaultPrim)\""
