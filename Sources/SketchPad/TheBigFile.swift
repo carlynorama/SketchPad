@@ -7,6 +7,9 @@
 
 //Not yet.
 //import simd
+import Foundation
+
+//TODO: UUID sucks as a geometry ID
 
 public struct Vector {
     let x:Double
@@ -27,7 +30,10 @@ public struct Bounds3D {
     var maxBounds:Vector
 }
 
-public protocol Geometry:Transformable & Boundable {}
+public protocol Geometry:Transformable & Boundable {
+    var id:UUID { get }
+    var shapeName:String { get }
+}
 
 public enum Transformation {
     case translate(Vector)
@@ -76,7 +82,13 @@ public enum Surfaces {
 
 
 public struct Sphere:Geometry {
+    static var shapeName = "Sphere"
+    public let id = UUID()
     let radius:Double
+    
+    public var shapeName: String {
+        Self.shapeName
+    }
     
     public init(radius: Double, transformations:[Transformation] = []) {
         self.radius = radius
