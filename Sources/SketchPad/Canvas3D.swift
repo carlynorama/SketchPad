@@ -25,12 +25,32 @@ public struct Canvas3D {
 @resultBuilder
 public enum Canvas3DBuilder {
 
-    public static func buildBlock(_ components: Sphere...) -> [Sphere] {
-        components
+    public static func buildBlock(_ components: [Sphere]...) -> [Sphere] {
+        components.flatMap { $0 }
     }
-
-    static func buildArray(_ components: [Sphere]) -> [Sphere] {
-        components
+    
+    public static func buildExpression(_ expression: [Sphere]) -> [Sphere] {
+        expression
+    }
+    
+    public static func buildExpression(_ expression: Sphere) -> [Sphere] {
+        [expression]
+    }
+    
+    public static func buildOptional(_ component: [Sphere]?) -> [Sphere] {
+        component ?? []
+    }
+    
+    public static func buildEither(first component: [Sphere]) -> [Sphere] {
+        component
+    }
+    
+    public static func buildEither(second component: [Sphere]) -> [Sphere] {
+        component
+    }
+    
+    public static func buildArray(_ components: [[Sphere]]) -> [Sphere] {
+        return components.flatMap { $0 }
     }
 }
 

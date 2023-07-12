@@ -1,6 +1,6 @@
 
 
-public struct MultiBall {
+public struct MultiBallStage {
     public init(count:Int) {
         self.count = count
     }
@@ -19,16 +19,16 @@ public struct MultiBall {
     public func buildStage() -> Canvas3D {
         Canvas3D {
             Sphere(radius: 1.0).color(red: 0, green: 0, blue: 1.0)
-            // for index in 0..<count {
-            //     Sphere(radius: Double.random(in: minRadius...maxRadius))
-            //     .color(
-            //         red: Double.random(in: 0...1), 
-            //         green: Double.random(in: 0...1), 
-            //         blue: Double.random(in: 0...1)
-            //     )
-            //     //The ranges are all the same in this case. 
-            //     .translateBy(vector: Vector.random(range: Double.random(in: minTranslate...maxTranslate)))
-            // }
+             for _ in 0..<count {
+                 Sphere(radius: Double.random(in: minRadius...maxRadius))
+                 .color(
+                     red: Double.random(in: 0...1), 
+                     green: Double.random(in: 0...1), 
+                     blue: Double.random(in: 0...1)
+                 )
+                 //The ranges are all the same in this case. 
+                 .translateBy(Vector.random(range: minTranslate...maxTranslate))
+             }
         }
     } 
 
