@@ -28,5 +28,9 @@ public enum Canvas3DBuilder {
     public static func buildBlock(_ components: Sphere...) -> [Sphere] {
         components
     }
+
+    static func buildArray(_ components: [Sphere]) -> [Sphere] {
+        components
+    }
 }
 
