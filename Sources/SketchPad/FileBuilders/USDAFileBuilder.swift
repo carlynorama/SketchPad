@@ -33,17 +33,30 @@ public struct USDAFileBuilder {
         ")"
     }
    
-    func translateString(_ xoffset:Double, _ yoffset:Double, _ zoffset:Double) -> String {
-        return "double3 xformOp:translate = (\(xoffset), \(yoffset), \(zoffset))"
-    }
+    // func translateString(_ xoffset:Double, _ yoffset:Double, _ zoffset:Double) -> String {
+    //     return "double3 xformOp:translate = (\(xoffset), \(yoffset), \(zoffset))"
+    // }
 
-    func opOrderStringTranslateOnly() -> String {
-        "uniform token[] xformOpOrder = [\"xformOp:translate\"]"
-    }
+    // func opOrderStringTranslateOnly() -> String {
+    //     "uniform token[] xformOpOrder = [\"xformOp:translate\"]"
+    // }
         
     func colorString(_ red:Double, _ green:Double, _ blue:Double) -> String {
         "color3f[] primvars:displayColor = [(\(red), \(green), \(blue))]"
     }
+
+    func colorString(shape:Geometry) -> String {
+        //There has been a problem. 
+        if shape.surfaces.count != 1 { fatalError() }
+        let color = shape.surfaces[0]
+        switch color {
+            case .displayColor(let c):
+                return "\t\t\(colorString(c.r, c.g, c.b))"
+            default:
+                fatalError()
+        }
+    }
+
         
     func  radiusString(_ radius:Double) -> String {
          "double radius = \(radius)"
@@ -79,7 +92,10 @@ public struct USDAFileBuilder {
         //"\tdef \(shape.shapeName) \"\(shape.shapeName.lowercased())_\(shape.id)\"\n\t{"
         "\tdef \(shape.shapeName) \"\(shape.id.lowercased())\"\n\t{" 
         "\t\t\(extentString(shape: shape))"
-        //Add color string
+        //TODO: How to handle surfaces more generally
+        if !shape.surfaces.isEmpty {
+            colorString(shape:shape)
+        }
         //This is what makes it a SPHERE builder.
         "\t\t\(radiusString(shape.radius))"
         "\t}"
@@ -92,5 +108,5 @@ public struct USDAFileBuilder {
             sphereBuilder(shape: item)
         }
     }
-    }
+}
 
