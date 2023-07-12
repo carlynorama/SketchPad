@@ -1,7 +1,7 @@
 
 import Foundation
 
-struct USDAFileBuilder {
+public struct USDAFileBuilder {
     var stage:Canvas3D
     var defaultPrimIndex:Int
     let metersPerUnit:Int
@@ -28,41 +28,46 @@ struct USDAFileBuilder {
     }
    
     func translateString(_ xoffset:Double, _ yoffset:Double, _ zoffset:Double) -> String {
-        return "\tdouble3 xformOp:translate = (\(xoffset), \(yoffset), \(zoffset))"
+        return "double3 xformOp:translate = (\(xoffset), \(yoffset), \(zoffset))"
     }
 
     func opOrderStringTranslateOnly() -> String {
-        "\tuniform token[] xformOpOrder = [\"xformOp:translate\"]"
+        "uniform token[] xformOpOrder = [\"xformOp:translate\"]"
     }
         
     func colorString(_ red:Double, _ green:Double, _ blue:Double) -> String {
-        "\t\tcolor3f[] primvars:displayColor = [(\(red), \(green), \(blue))]"
+        "color3f[] primvars:displayColor = [(\(red), \(green), \(blue))]"
     }
         
     func  radiusString(_ radius:Double) -> String {
-         "\t\tdouble radius = \(radius)"
+         "double radius = \(radius)"
     }
 
-    @StringBuilder func  buildPrimitive(geometry:Geometry) -> String {
-        """
-        \nover "\(id)" (\n\tprepend references = @./\(reference_file).usd@\n)\n{
-        """
-        
-        if xoffset != 0 || yoffset != 0 || zoffset != 0 {
-            translateString(xoffset, yoffset, zoffset)
-            opOrderStringTranslateOnly()
-        }
-                   
-        """
-        \tover "\(geometry_name)"\n\t{
-        """
-        colorString(red, green, blue)
-        radiusString(radius)
+    func extentString(shape:Geometry) -> String {
+        let minBounds = shape.currentBounds.minBounds
+        let maxBounds = shape.currentBounds.maxBounds
+        return "float3[] extent = [(\(minBounds.x), \(minBounds.y), \(minBounds.z)), (\(maxBounds.x), \(maxBounds.y), \(maxBounds.z))]"
+    }
+
+    @StringBuilder func sphereBuilder(shape:Sphere) -> String {
+        "def Xform \"\(shape.id)\"\n{"
+        //"def Xform \"\(shape.shapeName)_\(shape.id)\"\n{"
+        //Add transform info here. 
+        //"\tdef \(shape.shapeName) \"\(shape.shapeName.lowercased())_\(shape.id)\"\n\t{"
+        "\tdef \(shape.shapeName) \"\(shape.id.lowercased())\"\n\t{" 
+        "\t\t\(extentString(shape: shape))"
+        //Add color string
+        //This is what makes it a SPHERE builder.
+        "\t\t\(radiusString(shape.radius))"
         "\t}"
         "}"
     }
 
-
-     
+    @StringBuilder public func generateStringFromStage() -> String {
+        generateHeader()
+        for item in stage.content {
+            sphereBuilder(shape: item)
+        }
+    }
     }
 

@@ -15,10 +15,12 @@ extension SketchPadCLI {
         func run() {
            let result = Canvas3D {
                Sphere(radius:1).translateBy(Vector(x:3, y: 2, z: 5))
-               Sphere(radius:1)
+               Sphere(radius:0.5)
            }
             //let result = "Alice"
-            print(result)
+            //print(result)
+            let fileContent = USDAFileBuilder(stage: result)
+            print(fileContent.generateStringFromStage())
         }
     }
 }

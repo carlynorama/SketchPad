@@ -11,6 +11,17 @@ import Foundation
 
 //TODO: UUID sucks as a geometry ID
 
+enum IdString {
+    static func make(prefix:String) -> String {
+        "\(prefix)_\(Int.random(in: 10000..<100000))"
+    }
+    // let value:String
+
+    // init(prefix:String) {
+    //     self.value = "\(prefix)_\(Int.random(in: 10000..<100000))"
+    // }    
+}
+
 public struct Vector {
     let x:Double
     let y:Double
@@ -31,7 +42,7 @@ public struct Bounds3D {
 }
 
 public protocol Geometry:Transformable & Boundable {
-    var id:UUID { get }
+    var id:String { get }
     var shapeName:String { get }
 }
 
@@ -83,7 +94,7 @@ public enum Surfaces {
 
 public struct Sphere:Geometry {
     static var shapeName = "Sphere"
-    public let id = UUID()
+    public let id:String = IdString.make(prefix: Self.shapeName)
     let radius:Double
     
     public var shapeName: String {
