@@ -1,9 +1,10 @@
+//
+//  TheBigFile.swift
+//
+//
+//  Created by Carlyn Maw on 7/11/23.
+//
 
-// Canvas3D {
-//     Sphere(radius:3.0)
-            //.place(x:2.0, y:1.0, z:4.0)
-            //.color(red:0.1, green:0.2, blue:0.5)
-// }
 
 //Not yet.
 //import simd

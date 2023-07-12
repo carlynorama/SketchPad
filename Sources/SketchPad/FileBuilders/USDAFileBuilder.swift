@@ -1,3 +1,9 @@
+//
+//  USDAFileBuilder.swift
+//
+//
+//  Created by Carlyn Maw on 7/11/23.
+//
 
 import Foundation
 
@@ -49,10 +55,27 @@ public struct USDAFileBuilder {
         return "float3[] extent = [(\(minBounds.x), \(minBounds.y), \(minBounds.z)), (\(maxBounds.x), \(maxBounds.y), \(maxBounds.z))]"
     }
 
+    //TODO: Right now, can do the one and only one transform
+    //Will need to consolidate? Should consolidate
+    func transformString(shape:Geometry) -> String {
+        if shape.transformations.count != 1 { return "" }
+        let translate = shape.transformations[0]
+        switch translate {
+            case .translate(let v):
+            return """
+            \t\tdouble3 xformOp:translate = (\(v.x), \(v.y), \(v.z))
+            \t\tuniform token[] xformOpOrder = [\"xformOp:translate\"]
+            """ 
+        }
+
+    }
+
     @StringBuilder func sphereBuilder(shape:Sphere) -> String {
         "def Xform \"\(shape.id)\"\n{"
         //"def Xform \"\(shape.shapeName)_\(shape.id)\"\n{"
-        //Add transform info here. 
+        if !shape.transformations.isEmpty {
+            transformString(shape:shape) 
+        }
         //"\tdef \(shape.shapeName) \"\(shape.shapeName.lowercased())_\(shape.id)\"\n\t{"
         "\tdef \(shape.shapeName) \"\(shape.id.lowercased())\"\n\t{" 
         "\t\t\(extentString(shape: shape))"

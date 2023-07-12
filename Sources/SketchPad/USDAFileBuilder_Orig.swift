@@ -1,3 +1,12 @@
+//
+//  USDAFileBuilder_Orig.swift
+//
+//
+//  Created by Carlyn Maw on 7/11/23.
+//
+
+//NOTE: THIS FILE WILL BE DELETED. 
+
 struct USDAFileBuilder_Orig {
 
 @StringBuilder func generateHeader(defaultPrim:String, metersPerUnit:Double = 1, upAxis:String = "Y", documentationNote:String? = nil) -> String {

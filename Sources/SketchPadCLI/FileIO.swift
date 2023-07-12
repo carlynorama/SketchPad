@@ -26,7 +26,8 @@ enum FileIO {
         return formatter.string(from: Date()) //<- TODO: confirm that is "now"
         
     }
-    
+
+// Newer style, check against new Foundation. 
 //    func timeStampForFile() -> String {
 //        //Date.now.ISO8601Format()
 //        let date = Date.now
@@ -51,9 +52,22 @@ enum FileIO {
     }
     
     
-    static func writeDataToFile(data:Data , filePath:String) throws {
+    static func writeToFile(data:Data , filePath:String) throws {
         let url = makeFileURL(filePath: filePath)
         try data.write(to: url)
+    }
+
+    static func writeToFile(string:String, filePath:String? = nil) {
+        let path = filePath ?? "text_\(timeStamp()).txt"
+        do {
+            guard let data:Data = string.data(using: .utf8) else {
+                print("Could not encode string to data")
+                return
+            }
+            try FileIO.writeToFile(data: data, filePath: path)
+        } catch {
+            print("Could not write data to file: \(error)")
+        }
     }
     
     //---------

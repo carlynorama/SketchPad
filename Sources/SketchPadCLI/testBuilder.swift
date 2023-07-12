@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SketchPadCLI/tesBuilder.swift
 //
 //
 //  Created by Carlyn Maw on 7/11/23.
@@ -21,6 +21,8 @@ extension SketchPadCLI {
             //print(result)
             let fileContent = USDAFileBuilder(stage: result)
             print(fileContent.generateStringFromStage())
+            let path =  "testUSD_\(FileIO.timeStamp()).usd"
+            FileIO.writeToFile(string:fileContent.generateStringFromStage(), filePath: path)
         }
     }
 }
