@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Canvas3D.swift
 //
 //
 //  Created by Carlyn Maw on 7/11/23.
@@ -9,8 +9,6 @@
 //https://developer.apple.com/videos/play/wwdc2021/10253/
 import Foundation
 
-
-
 public struct Canvas3D {
     let content:[Sphere]
     public init(@Canvas3DBuilder content: () -> [Sphere]) {
@@ -19,40 +17,16 @@ public struct Canvas3D {
 }
 
 //Result builder 'CanvasBuilder' does not implement any 'buildBlock' or a combination of 'buildPartialBlock(first:)' and 'buildPartialBlock(accumulated:next:)' with sufficient availability for this call site
-
+//TODO: The new resultBuilder a la 
+    //    extension SceneBuilder {
+    //        static func buildPartialBlock(first: some Scene) -> some Scene
+    //        static func buildPartialBlock(accumulated: some Scene, next: some Scene) -> some Scene
+    //    }
 @resultBuilder
 public enum Canvas3DBuilder {
 
     public static func buildBlock(_ components: Sphere...) -> [Sphere] {
         components
     }
-//
-////    static func buildOptional(_ component:any Geometry?) -> [any Geometry] {
-////        component ?? []
-////    }
-//
-//    static func buildEither(first component: any Geometry) -> [any Geometry] {
-//        return [component]
-//    }
-//
-//    static func buildEither(second component: any Geometry) -> [any Geometry] {
-//        return [component]
-//    }
-//
-//    static func buildArray(_ components: [any Geometry]) -> [any Geometry] {
-//        components
-//    }
-    
-    //    static func buildPartialBlock(first: Component) -> Component {
-    //
-    //    }
-    //    static func buildPartialBlock(accumulated: Component, next: Component) -> Component {
-    //
-    //    }
-        
-    //    extension SceneBuilder {
-    //        static func buildPartialBlock(first: some Scene) -> some Scene
-    //        static func buildPartialBlock(accumulated: some Scene, next: some Scene) -> some Scene
-    //    }
 }
 

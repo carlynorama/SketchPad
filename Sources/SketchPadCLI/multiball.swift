@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  SketchPadCLI/multiball.swift
+//
 //
 //  Created by Carlyn Maw on 7/11/23.
 //
@@ -35,7 +35,7 @@ extension SketchPadCLI {
                         return
                     }
                 let path:String = customPath ?? "multiball_\(FileIO.timeStamp()).usda"
-                    try FileIO.writeDataToFile(data: data, filePath: path)
+                    try FileIO.writeToFile(data: data, filePath: path)
                 } catch {
                     print("Could not write data to file: \(error)")
                 }

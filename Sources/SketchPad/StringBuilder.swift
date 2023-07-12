@@ -1,3 +1,10 @@
+//
+//  StringBuilder.swift
+//
+//
+//  Created by Carlyn Maw on 7/10/23.
+//
+
 // https://www.hackingwithswift.com/swift/5.4/result-builders
 // https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md
 import Foundation
