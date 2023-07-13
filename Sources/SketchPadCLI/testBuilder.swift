@@ -17,10 +17,11 @@ extension SketchPadCLI {
 
            //let result = "Alice"
             //print(result)
-            let fileContent = USDAFileBuilder(stage: HelloCanvas().stage)
-            print(fileContent.generateStringFromStage())
+            let builder = USDAFileBuilder()
+            let stage = HelloCanvas().buildStage()
+            print(builder.generateStringForStage(stage:stage))
             let path =  "testUSD_\(FileIO.timeStamp()).usd"
-            FileIO.writeToFile(string:fileContent.generateStringFromStage(), filePath: path)
+            FileIO.writeToFile(string:builder.generateStringForStage(stage:stage), filePath: path)
         }
     }
 }

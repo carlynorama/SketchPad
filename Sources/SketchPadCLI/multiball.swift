@@ -27,8 +27,8 @@ extension SketchPadCLI {
         CommandConfiguration(abstract: "Generate a USDA file that references sphere_base.usda like previous examples. 12 + blue origin ball is the default count")
         
         func run() {
-            let fileBuilder = USDAFileBuilder(stage: MultiBallStage(count:count).buildStage())
-            let fileString:String = fileBuilder.generateStringFromStage()
+            let fileBuilder = USDAFileBuilder()
+            let fileString:String = fileBuilder.generateStringForStage(stage: MultiBallStage(count:count).buildStage())
             if saveToFile || customPath != nil {
                 do {
                     guard let data:Data = fileString.data(using: .utf8) else {

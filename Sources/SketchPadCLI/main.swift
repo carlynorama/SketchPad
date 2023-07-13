@@ -23,6 +23,7 @@ struct SketchPadCLI: ParsableCommand {
             testBuilder.self
         ],
         defaultSubcommand: multiball.self)
+        //defaultSubcommand: testBuilder.self)
 
     init() { }
 }
