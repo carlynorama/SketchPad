@@ -5,8 +5,10 @@
 //  Created by Carlyn Maw on 7/10/23.
 //
 
-// https://www.hackingwithswift.com/swift/5.4/result-builders
-// https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md
+// TODO: Multiline strings?
+// TODO: Fix empty line for ifs (switch to [String]... ?)
+// TODO: Ignore empty lines as an option? 
+
 import Foundation
 
 @resultBuilder
@@ -15,6 +17,7 @@ struct StringBuilder {
         parts.joined(separator: "\n")
     }
 
+    
     static func buildOptional(_ component:String?) -> String {
         component ?? ""
     }

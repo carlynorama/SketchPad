@@ -8,23 +8,23 @@
 import Foundation
 
 public struct USDAFileBuilder {
-    var stage:Canvas3D
+    //var stage:Canvas3D
     var defaultPrimIndex:Int
     let metersPerUnit:Int
     let upAxis:String
     let documentationNote:String?
     
-    public init(stage: Canvas3D, defaultPrimIndex: Int = 0, metersPerUnit: Int = 1, upAxis: String = "Y", docNote:String? = nil) {
-        self.stage = stage
+    public init(defaultPrimIndex: Int = 0, metersPerUnit: Int = 1, upAxis: String = "Y", docNote:String? = nil) {
+        //self.stage = stage
         self.defaultPrimIndex = defaultPrimIndex
         self.metersPerUnit = metersPerUnit
         self.upAxis = upAxis
         self.documentationNote = docNote
     }
     
-    @StringBuilder func generateHeader() -> String {
+    @StringBuilder func generateHeader(defaultPrimID:String) -> String {
         "#usda 1.0\n("
-        "\tdefaultPrim = \"\(stage.content[defaultPrimIndex].id)\""
+        "\tdefaultPrim = \"\(defaultPrimID)\""
         "\tmetersPerUnit = \(metersPerUnit)"
         "\tupAxis = \"\(upAxis)\""
         if let documentationNote {
@@ -102,8 +102,8 @@ public struct USDAFileBuilder {
         "}"
     }
 
-    @StringBuilder public func generateStringFromStage() -> String {
-        generateHeader()
+    @StringBuilder public func generateStringForStage(stage:Canvas3D) -> String {
+        generateHeader(defaultPrimID:stage.content[defaultPrimIndex].id)
         for item in stage.content {
             sphereBuilder(shape: item)
         }

@@ -10,8 +10,6 @@
 //import simd
 import Foundation
 
-//TODO: UUID sucks as a geometry ID
-
 enum IdString {
     static func make(prefix:String) -> String {
         "\(prefix)_\(Int.random(in: 10000..<100000))"
@@ -32,6 +30,14 @@ public struct Vector {
         self.x = x
         self.y = y
         self.z = z
+    }
+
+    static func random(range:ClosedRange<Double>) -> Self {
+        Self(x: .random(in: range), y: .random(in: range), z: .random(in: range))
+    }
+
+    static func random(x xrange:ClosedRange<Double>, y yrange:ClosedRange<Double>, z zrange:ClosedRange<Double>) -> Self {
+        Self(x: .random(in: xrange), y: .random(in: yrange), z: .random(in: zrange))
     }
 }
 
