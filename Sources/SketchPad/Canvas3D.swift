@@ -29,9 +29,9 @@ public enum Canvas3DBuilder {
         components.flatMap { $0 }
     }
     
-    public static func buildExpression(_ expression: [Sphere]) -> [Sphere] {
-        expression
-    }
+    // public static func buildExpression(_ expression: [Sphere]) -> [Sphere] {
+    //     expression
+    // }
     
     public static func buildExpression(_ expression: Sphere) -> [Sphere] {
         [expression]
