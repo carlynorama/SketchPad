@@ -14,7 +14,10 @@ public struct USDAFileBuilder {
     let upAxis:String
     let documentationNote:String?
     
-    public init(defaultPrimIndex: Int = 0, metersPerUnit: Int = 1, upAxis: String = "Y", docNote:String? = nil) {
+    public init(defaultPrimIndex: Int = 0, 
+                metersPerUnit: Int = 1, 
+                upAxis: String = "Y", 
+                docNote:String? = nil) {
         //self.stage = stage
         self.defaultPrimIndex = defaultPrimIndex
         self.metersPerUnit = metersPerUnit
@@ -63,10 +66,11 @@ public struct USDAFileBuilder {
     }
 
     func extentString(shape:Geometry) -> String {
-        let minBounds = shape.currentBounds.minBounds
-        let maxBounds = shape.currentBounds.maxBounds
-        return "float3[] extent = [(\(minBounds.x), \(minBounds.y), \(minBounds.z)), (\(maxBounds.x), \(maxBounds.y), \(maxBounds.z))]"
+        let min = shape.currentBounds.minBounds
+        let max = shape.currentBounds.maxBounds
+        return "float3[] extent = [(\(min.x), \(min.y), \(min.z)), (\(max.x), \(max.y), \(max.z))]"
     }
+
 
     //TODO: Right now, can do the one and only one transform
     //Will need to consolidate? Should consolidate
