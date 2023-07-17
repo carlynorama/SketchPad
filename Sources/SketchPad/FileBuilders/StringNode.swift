@@ -22,7 +22,7 @@ indirect enum StringNode {
     case content(String)
     case container((prefix:String, content:StringNode, suffix:String))
     case list([StringNode])
-
+    
     init(_ string:String) {
         self = .content(string)
     }
@@ -44,14 +44,14 @@ indirect enum StringNode {
     }
     
     //TODO: Why didn't this work as expected?
-//    public init(prefix:String, suffix:String,
-//                @StringNodeBuilder content: () -> StringNode) {
-//        self = .container((prefix: prefix,
-//                           content: content(),
-//                           suffix: suffix))
-//    }
+    //    public init(prefix:String, suffix:String,
+    //                @StringNodeBuilder content: () -> StringNode) {
+    //        self = .container((prefix: prefix,
+    //                           content: content(),
+    //                           suffix: suffix))
+    //    }
     
-    private static func stringify(node:StringNode) -> String {
+    static func stringify(node:StringNode) -> String {
         switch node {
         case .content(let s):
             return s
@@ -96,13 +96,13 @@ indirect enum StringNode {
             $0.indentedString(startLevel: startLevel)
         }).joined(separator: separator)
     }
-
+    
     func indentedString(startLevel:Int = 0) -> String {
         Self.indentStringify(node: self, level: startLevel)
     }
     
     //MARK: Common Conversions
-    static func dictionaryToEqualSigns(dict:Dictionary<String,String>) -> 
+    static func dictionaryToEqualSigns(dict:Dictionary<String,String>) ->
     [StringNode] {
         var tmp:[StringNode] = []
         for (key, value) in dict {
@@ -131,17 +131,17 @@ enum StringNodeBuilder {
     }
     
     //Commented out b/c replaced with StringNodeable
-//    public static func buildExpression(_ expression: String) -> [StringNode] {
-//        [.content(expression)]
-//    }
-//
-//    static func buildExpression(_ components: String...) -> [StringNode] {
-//        components.compactMap { .content($0) }
-//    }
-//
-//    static func buildExpression(_ components: [String]...) -> [StringNode] {
-//        components.flatMap { $0 }.compactMap { .content($0) }
-//    }
+    //    public static func buildExpression(_ expression: String) -> [StringNode] {
+    //        [.content(expression)]
+    //    }
+    //
+    //    static func buildExpression(_ components: String...) -> [StringNode] {
+    //        components.compactMap { .content($0) }
+    //    }
+    //
+    //    static func buildExpression(_ components: [String]...) -> [StringNode] {
+    //        components.flatMap { $0 }.compactMap { .content($0) }
+    //    }
     
     public static func buildExpression(_ expression: StringNodeable) -> [StringNode] {
         [expression.asStringNode]
@@ -197,18 +197,73 @@ extension String {
     }
 }
 
-struct CurlyBraced:StringNodeable {
-    let prefix: String
-    let suffix: String = "}"
-    
-    var content: StringNode
-    
-    init(opening:String, @StringNodeBuilder content: () -> [StringNode]) {
-        self.prefix = "\(opening) {"
-        self.content = .list(content())
-    }
-    
+enum BraceStyle {
+    case compact, semiCompact, expanded
+}
+
+protocol Bracing:StringNodeable {
+    var braceOpener:String { get }
+    var braceCloser:String { get }
+    var precedingText:String? { get set }
+    var content: StringNode { get set }
+    var style:BraceStyle { get set }
+    var asStringNode: StringNode { get }
+} 
+
+extension Bracing {
+
     var asStringNode: StringNode {
-        .container((prefix: prefix, content: content, suffix: suffix))
+        switch style {
+        case .expanded:
+            guard let precedingText else {
+                fallthrough
+            }
+            return .list([
+                .content(precedingText),
+                .container((prefix: braceOpener, content: content, suffix: braceCloser))
+            ])
+        case .semiCompact:
+            let start = precedingText != nil ? "\(precedingText!) \(braceOpener)" : "\(braceOpener)"
+            return .container((prefix: start, content: content, suffix: braceCloser))
+        case .compact:
+            let contentString = StringNode.stringify(node:content)
+            return .content("\(precedingText ?? "")\(braceOpener)\(contentString)\(braceCloser)")
+        }
     }
 }
+
+struct CurlyBraced:Bracing {
+    let braceOpener:String = "{"
+    let braceCloser:String = "}"
+    
+    var precedingText: String?
+    var style: BraceStyle
+    var content: StringNode
+
+    //TODO: Try again to put this as part of the protocol? A Macro?
+    init(opening:String? = nil, style:BraceStyle = .semiCompact, @StringNodeBuilder content: () -> [StringNode]) {
+        self.precedingText = opening
+        //TODO: What if content is empty or only 1 item?
+        self.content = .list(content())
+        self.style = style
+    }
+}
+
+struct Parens:Bracing {
+    let braceOpener:String = "("
+    let braceCloser:String = ")"
+    
+    var precedingText: String?
+    var style: BraceStyle
+    var content: StringNode
+
+    //TODO: Try again to put this as part of the protocol? A Macro?
+    init(opening:String? = nil, style:BraceStyle = .semiCompact, @StringNodeBuilder content: () -> [StringNode]) {
+        self.precedingText = opening
+        //TODO: What if content is empty or only 1 item?
+        self.content = .list(content())
+        self.style = style
+    }
+}
+
+

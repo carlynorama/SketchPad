@@ -25,28 +25,6 @@ public struct USDAFileBuilder {
         self.documentationNote = docNote
     }
     
-    struct USDHeader:StringNodeable {
-        let fileType:String
-        let version:String
-        
-        var prefix: String { "#\(fileType) \(version)\n(" }
-        var suffix: String { ")" }
-        
-        var content: StringNode
-        
-        init(fileType:String,
-             version:String,
-             metaData:Dictionary<String,String>) {
-            self.fileType = fileType
-            self.version = version
-            content = .list(StringNode.dictionaryToEqualSigns(dict: metaData))
-        }
-        
-        var asStringNode: StringNode {
-            .container((prefix: prefix, content: content, suffix: suffix))
-        }
-    }
-    
     func generateHeader(defaultPrimID:String,
                         fileType:String = "usda",
                         version:String = "1.0") -> StringNode {
@@ -58,10 +36,10 @@ public struct USDAFileBuilder {
         if let documentationNote {
             metaData["documentationNote"] = documentationNote
         }
-        let header = USDHeader(fileType: fileType,
-                               version: version,
-                               metaData: metaData)
-        return header.asStringNode
+        return Parens(opening: "#\(fileType) \(version)", 
+                    style: .expanded,
+                    content: { .list(StringNode.dictionaryToEqualSigns(dict: metaData)) } 
+                ).asStringNode
     }
     
     func colorString(_ red:Double, _ green:Double, _ blue:Double) -> String {
@@ -112,7 +90,8 @@ public struct USDAFileBuilder {
             if !shape.transformations.isEmpty {
                 transformString(shape:shape)
             }
-            CurlyBraced(opening: "def \(shape.shapeName) \"\(shape.id.lowercased())\"") {
+            CurlyBraced(opening: "def \(shape.shapeName) \"\(shape.id.lowercased())\"", 
+            style: .expanded) {
                 "\(extentString(shape: shape))"
                 //TODO: How to handle surfaces more generally
                 if !shape.surfaces.isEmpty {
