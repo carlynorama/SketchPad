@@ -14,7 +14,7 @@ public struct X3DFileBuilder {
     public init() { }
 
     //TODO: fix String builder so if's aren't empty lines
-    @StringBuilder func generateHeader(
+    @MultiLineStringBuilder func generateHeader(
         title:String? = nil, 
         description:String? = nil
         ) -> String {
@@ -34,15 +34,15 @@ public struct X3DFileBuilder {
         "<meta content=\"13 Jul 2023\" name=\"created\"/>"
     }
 
-    @StringBuilder func sceneHeader() -> String {
+    @MultiLineStringBuilder func sceneHeader() -> String {
         "<Scene>"
     }
 
-    @StringBuilder func sceneFooter() -> String {
+    @MultiLineStringBuilder func sceneFooter() -> String {
          "</Scene>"
     }
 
-    @StringBuilder func pageFooter() -> String {
+    @MultiLineStringBuilder func pageFooter() -> String {
         "</X3D>"
     }
 
@@ -72,7 +72,7 @@ public struct X3DFileBuilder {
         }
     }
 
-     @StringBuilder func sphereBuilder(shape:Sphere) -> String {
+     @MultiLineStringBuilder func sphereBuilder(shape:Sphere) -> String {
         if !shape.transformations.isEmpty {
             for transform in shape.transformations {
                 transformStart(transform:transform)
@@ -94,14 +94,17 @@ public struct X3DFileBuilder {
         }
      }
 
-    @StringBuilder public func generateStringForStage(stage:Canvas3D) -> String {
-        generateHeader()
-        sceneHeader()
-        for item in stage.content {
-            sphereBuilder(shape: item)
+    public func generateStringForStage(stage:Canvas3D) -> String {
+        let document = Document {
+            generateHeader()
+            sceneHeader()
+            for item in stage.content {
+                sphereBuilder(shape: item)
+            }
+            sceneFooter()
+            pageFooter()
         }
-        sceneFooter()
-        pageFooter()
+        return document.render(style: .indented)
     }
 }
 

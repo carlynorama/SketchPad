@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.1//EN" "http://www.web3d.org/specifications/x3d-3.1.dtd">
+<X3D profile="Immersive" version="3.1" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.1.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance">
+<head>
+	<meta content="13 Jul 2023" name="created"/>
+	<meta content="SketchPad" name="generator"/>
+</head>
+<Scene>
+<shape>
+	<appearance>
+<material diffuseColor='0.0 0.0 1.0'></material>
+	</appearance>
+	<sphere radius='1.0'></sphere>
+</shape>
+<transform translation='3.5008709612168314 3.8431684545913987 -1.1826531018238482'>
+<shape>
+	<appearance>
+<material diffuseColor='0.218875802696593 0.315894489540517 0.5334058625718459'></material>
+	</appearance>
+	<sphere radius='1.3740188309102113'></sphere>
+</shape>
+</transform>
+<transform translation='-1.658596138970088 -0.09484930221148069 -1.3857576040175035'>
+<shape>
+	<appearance>
+<material diffuseColor='0.5712639379876422 0.49322959495231566 0.9682658052572649'></material>
+	</appearance>
+	<sphere radius='1.3470660133842132'></sphere>
+</shape>
+</transform>
+</Scene>
+</X3D>

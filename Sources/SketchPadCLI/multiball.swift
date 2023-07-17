@@ -20,7 +20,7 @@ extension SketchPadCLI {
         
         @Option(name: [.customLong("count"), .customShort("c")],
               help: "Number of spheres to generate in addition to the blue origin sphere. Default is 12")
-        var count:Int = 12
+        var count:Int = 2
         
         
         static var configuration =
