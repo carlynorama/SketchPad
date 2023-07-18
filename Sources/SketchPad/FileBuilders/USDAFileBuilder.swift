@@ -113,7 +113,7 @@ public struct USDAFileBuilder {
                 sphereBuilder(shape: item)
             }
         }
-        return document.render(style: .indented)
+        return document.render(style: .multilineIndented)
     }
     
 }

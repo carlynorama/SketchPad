@@ -1,7 +1,7 @@
 struct Document {
     enum RenderStyle {
         case minimal
-        case indented
+        case multilineIndented
     }
     
     let content:[StringNode]
@@ -9,9 +9,9 @@ struct Document {
         self.content = content()
     }
     
-    func render(style: RenderStyle = .indented) -> String {
+    func render(style: RenderStyle = .multilineIndented) -> String {
         switch style {
-        case .indented:
+        case .multilineIndented:
             return StringNode.indentStringify(nodeSet: content, separator:"\n")
         case .minimal:
             return StringNode.stringify(nodeSet: content)

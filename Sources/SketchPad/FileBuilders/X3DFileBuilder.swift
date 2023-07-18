@@ -106,7 +106,7 @@ public struct X3DFileBuilder {
                 }
             }
         }
-        return document.render(style: .indented)
+        return document.render(style: .multilineIndented)
     }
 }
 
