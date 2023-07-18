@@ -19,17 +19,6 @@ struct Document {
     }
 }
 
-
-
-extension String {
-    func embrace(with e:String) -> String {
-        "\(e)\(self)\(e)"
-    }
-    func quoted()  -> String{
-        embrace(with:"\"")
-    }
-}
-
 enum BraceStyle {
     case compact, semiCompact, expanded
 }
