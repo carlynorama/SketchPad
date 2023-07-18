@@ -88,7 +88,7 @@ struct Parens:Bracing {
 }
 
 struct Tag:StringNodeable {
-    
+
     let name:String
     let attributes:Dictionary<String, String>?
     
