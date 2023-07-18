@@ -57,6 +57,7 @@ public struct X3DFileBuilder {
         var tmp:[StringNode] = []
         for (key, value) in dict {
             //<meta content="SketchPad" name="generator"/>
+            //Don't for get the / in front of the >
             tmp.append(.content("<meta content=\(value.quoted()) name=\(key.quoted())/>"))
         }
         return tmp
