@@ -88,7 +88,7 @@ public struct USDAFileBuilder {
     }
     
     func sphereBuilder(shape:Sphere) -> StringNodeable {
-        CurlyBraced(opening: "def Xform \"\(shape.id)\"") {
+        CurlyBraced(opening: "def Xform \"\(shape.id)\"", style: .expanded) {
             
             if !shape.transformations.isEmpty {
                 transformString(shape:shape)
