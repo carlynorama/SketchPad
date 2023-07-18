@@ -8,57 +8,61 @@
 import Foundation
 
 public struct X3DFileBuilder {
-    // let title:String
-    // let description:String
-
+    static var version = "3.2"
     public init() { }
 
-    //TODO: fix String builder so if's aren't empty lines
-    @MultiLineStringBuilder func generateHeader(
+    let TopMatter = """
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D \(version)//EN"
+                     "http://www.web3d.org/specifications/x3d-\(version).dtd">
+    """
+
+    let X3DAttributes:Dictionary = [
+        "profile":"Immersive", 
+        "version":"\(version)", 
+        "xmlns:xsd":"http://www.w3.org/2001/XMLSchema-instance", 
+        "xsd:noNamespaceSchemaLocation":"http://www.web3d.org/specifications/x3d-\(version).xsd"
+    ]
+
+    func head(
         title:String? = nil, 
         description:String? = nil
-        ) -> String {
-        #"<?xml version="1.0" encoding="UTF-8"?>"#
-        #"<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.1//EN" "http://www.web3d.org/specifications/x3d-3.1.dtd">"#
-        #"<X3D profile="Immersive" version="3.1" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.1.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance">"#
-        #"<head>"#
-        if let title { "\t<meta content=\"\(title)\" name=\"title\"/>"}
-        if let description {"\t<meta content=\"\(description)\" name=\"description\"/>"} 
-        "\t\(dateMetaString())"
-        "\t<meta content=\"SketchPad\" name=\"generator\"/>"
-        "</head>"
-    }
+        ) -> StringNodeable {
+        
+        var metaData = [
+            "generator":"SketchPad X3D FileBuilder",
+            "created":metaDateString()
+        ]
 
-    //TODO: Date actually generated
-    func dateMetaString() -> String {
-        "<meta content=\"13 Jul 2023\" name=\"created\"/>"
-    }
+        if let title {
+            metaData["title"] = title
+        }
+        if let description {
+            metaData["description"] = description
+        }
 
-    @MultiLineStringBuilder func sceneHeader() -> String {
-        "<Scene>"
-    }
-
-    @MultiLineStringBuilder func sceneFooter() -> String {
-         "</Scene>"
-    }
-
-    @MultiLineStringBuilder func pageFooter() -> String {
-        "</X3D>"
-    }
-
-    func transformStart(transform:Transformation) -> String {
-        switch transform {
-        case .translate(let v):
-        return "<transform translation='\(v.x) \(v.y) \(v.z)'>" 
-        // default:
-        // fatalError()
+        return Tag("head") {
+            .list(dictionaryToMetaTags(dict: metaData))
         }
     }
 
-    func transformClose() -> String {
-        "</transform>"
+    func metaDateString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMM YYY"
+        return formatter.string(from: Date())
     }
 
+    func dictionaryToMetaTags(dict:Dictionary<String,String>) ->
+    [StringNode] {
+        var tmp:[StringNode] = []
+        for (key, value) in dict {
+            //<meta content="SketchPad" name="generator"/>
+            tmp.append(.content("<meta content=\(value.quoted()) name=\(key.quoted())/>"))
+        }
+        return tmp
+    }
+
+    //TODO: X3D Actually has a color type.
     func materialString(_ surfaces:[Surface]) -> String {
         //<material DEF="color" diffuseColor=" 0.6 0 0" specularColor='1 1 1'/>
         //<material diffuseColor='0 0 1'></material> 
@@ -66,43 +70,51 @@ public struct X3DFileBuilder {
         let surface = surfaces[0]
         switch surface {
             case .displayColor(let c):
-                return "<material diffuseColor='\(c.r) \(c.g) \(c.b)'></material>"
+                return "<Material diffuseColor='\(c.r) \(c.g) \(c.b)'></Material>"
             default:
                 fatalError()
         }
     }
 
-     @MultiLineStringBuilder func sphereBuilder(shape:Sphere) -> String {
-        if !shape.transformations.isEmpty {
-            for transform in shape.transformations {
-                transformStart(transform:transform)
+    func transformAttribute(transform:Transformation) -> Dictionary<String,String> {
+        switch transform {
+            case .translate(let v):
+            return ["translation":"\(v.x) \(v.y) \(v.z)"] 
+        }
+    }
+
+    func sphereBuilder(shape:Sphere) -> StringNodeable {
+        var content = Tag("Shape") {
+            Tag("Appearance") {
+                if !shape.surfaces.isEmpty {
+                materialString(shape.surfaces)
+                }
             }
+            "<Sphere radius='\(shape.radius)'></Sphere>" 
         }
-        "<shape>"
-        "\t<appearance>" 
-        if !shape.surfaces.isEmpty {
-            materialString(shape.surfaces)
-        }
-        "\t</appearance>" 
-        //TODO: what does a unit mean here vs. usd?
-        "\t<sphere radius='\(shape.radius)'></sphere>" 
-        "</shape>"
+
         if !shape.transformations.isEmpty {
-            for _ in 0..<shape.transformations.count {
-                transformClose()
+            let orderedTransforms = shape.transformations.reversed()
+            for item in orderedTransforms {
+                let attributes = transformAttribute(transform: item)
+                content = Tag("Transform", attributes:attributes) { content }
             }
-        }
+        } 
+
+        return content
      }
 
     public func generateStringForStage(stage:Canvas3D) -> String {
         let document = Document {
-            generateHeader()
-            sceneHeader()
-            for item in stage.content {
-                sphereBuilder(shape: item)
+            TopMatter
+            Tag("X3D", attributes: X3DAttributes) {
+                head()
+                Tag("Scene") {
+                    for item in stage.content {
+                        sphereBuilder(shape: item)
+                    }
+                }
             }
-            sceneFooter()
-            pageFooter()
         }
         return document.render(style: .indented)
     }

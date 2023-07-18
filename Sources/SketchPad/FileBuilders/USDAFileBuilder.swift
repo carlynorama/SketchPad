@@ -38,7 +38,7 @@ public struct USDAFileBuilder {
         }
         return Parens(opening: "#\(fileType) \(version)", 
                     style: .expanded,
-                    content: { .list(StringNode.dictionaryToEqualSigns(dict: metaData)) } 
+                    content: { .list(dictionaryToEqualSigns(dict: metaData)) } 
                 ).asStringNode
     }
     
@@ -111,6 +111,15 @@ public struct USDAFileBuilder {
             }
         }
         return document.render(style: .indented)
+    }
+
+    func dictionaryToEqualSigns(dict:Dictionary<String,String>) ->
+    [StringNode] {
+        var tmp:[StringNode] = []
+        for (key, value) in dict {
+            tmp.append(.content("\(key) = \(value)"))
+        }
+        return tmp
     }
 }
 
