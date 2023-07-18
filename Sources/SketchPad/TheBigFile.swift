@@ -15,7 +15,7 @@ enum IdString {
         "\(prefix)_\(Int.random(in: 10000..<100000))"
     }
     // let value:String
-
+    
     // init(prefix:String) {
     //     self.value = "\(prefix)_\(Int.random(in: 10000..<100000))"
     // }    
@@ -31,11 +31,11 @@ public struct Vector {
         self.y = y
         self.z = z
     }
-
+    
     static func random(range:ClosedRange<Double>) -> Self {
         Self(x: .random(in: range), y: .random(in: range), z: .random(in: range))
     }
-
+    
     static func random(x xrange:ClosedRange<Double>, y yrange:ClosedRange<Double>, z zrange:ClosedRange<Double>) -> Self {
         Self(x: .random(in: xrange), y: .random(in: yrange), z: .random(in: zrange))
     }
@@ -73,18 +73,18 @@ public extension Transformable {
     }
 }
 //extension Transformable {
-    // func translateTo(x:Double, y:Double, z:Double) {}
-    // func translateTo(_ vector:Vector) {}
-    // func translateBy(x:Double, y:Double, z:Double) {}
-    // func translateBy(_ vector:Vector) {}
+// func translateTo(x:Double, y:Double, z:Double) {}
+// func translateTo(_ vector:Vector) {}
+// func translateBy(x:Double, y:Double, z:Double) {}
+// func translateBy(_ vector:Vector) {}
 
-    // func rotateBy(x:Double, y:Double, z:Double) {}
-    // func rotateBy(v:Vector) {}
+// func rotateBy(x:Double, y:Double, z:Double) {}
+// func rotateBy(v:Vector) {}
 
-    // func scaleBy(_ onDiagonal:Double) {}
-    // func scaleBy(x:Double, y:Double, z:Double) {}
-    // func scaleBy(_ vector:Vector) {}
-    // func scaleTo(x:Double, y:Double, z:Double) {}
+// func scaleBy(_ onDiagonal:Double) {}
+// func scaleBy(x:Double, y:Double, z:Double) {}
+// func scaleBy(_ vector:Vector) {}
+// func scaleTo(x:Double, y:Double, z:Double) {}
 //}
 
 //TODO: Not a fan of this word. Skinnable? Imagable?
@@ -123,17 +123,17 @@ public struct Sphere:Geometry {
         self.radius = radius
         self.transformations = transformations
     }
-
+    
     //Boundable
     public var currentBounds: Bounds3D {
         let minVect = Vector(x: -radius, y: -radius, z: -radius)
         let maxVect = Vector(x: radius, y: radius, z: radius)
         return Bounds3D(minBounds: minVect, maxBounds: maxVect)
     }
-
+    
     //Transformable
     public var transformations:[Transformation] = []
-
+    
     
     //Surfaceable
     public var surfaces:[Surface] = []

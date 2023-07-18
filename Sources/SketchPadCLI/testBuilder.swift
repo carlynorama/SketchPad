@@ -13,9 +13,9 @@ extension SketchPadCLI {
     struct testBuilder:ParsableCommand {
         
         func run() {
-
-
-           //let result = "Alice"
+            
+            
+            //let result = "Alice"
             //print(result)
             let builder = USDAFileBuilder()
             let stage = HelloCanvas().buildStage()

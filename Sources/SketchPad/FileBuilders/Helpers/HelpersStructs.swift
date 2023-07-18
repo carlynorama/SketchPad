@@ -60,7 +60,7 @@ struct CurlyBraced:Bracing {
     var precedingText: String?
     var style: BraceStyle
     var content: StringNode
-
+    
     //TODO: Try again to put this as part of the protocol? A Macro?
     init(opening:String? = nil, style:BraceStyle = .semiCompact, @StringNodeBuilder content: () -> [StringNode]) {
         self.precedingText = opening
@@ -77,7 +77,7 @@ struct Parens:Bracing {
     var precedingText: String?
     var style: BraceStyle
     var content: StringNode
-
+    
     //TODO: Try again to put this as part of the protocol? A Macro?
     init(opening:String? = nil, style:BraceStyle = .semiCompact, @StringNodeBuilder content: () -> [StringNode]) {
         self.precedingText = opening
@@ -126,11 +126,11 @@ extension Tag {
         return tmp
     }
     static func attributesFromDictionaryXML(_ dict:Dictionary<String, String>) -> String {
-    var tmp:String = ""
-    for (key, value) in dict {
-        tmp.append(" \(key)=\(value.embrace(with: "'"))")
-    }
-    return tmp
+        var tmp:String = ""
+        for (key, value) in dict {
+            tmp.append(" \(key)=\(value.embrace(with: "'"))")
+        }
+        return tmp
     }
 }
 

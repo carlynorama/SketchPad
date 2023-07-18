@@ -37,9 +37,9 @@ public struct USDAFileBuilder {
             metaData["documentationNote"] = documentationNote
         }
         return Parens(opening: "#\(fileType) \(version)", 
-                    style: .expanded,
-                    content: { .list(dictionaryToEqualSigns(dict: metaData)) } 
-                ).asStringNode
+                      style: .expanded,
+                      content: { .list(dictionaryToEqualSigns(dict: metaData)) } 
+        ).asStringNode
     }
     
     func colorString(_ red:Double, _ green:Double, _ blue:Double) -> String {
@@ -91,7 +91,7 @@ public struct USDAFileBuilder {
                 transformString(shape:shape)
             }
             CurlyBraced(opening: "def \(shape.shapeName) \"\(shape.id.lowercased())\"", 
-            style: .expanded) {
+                        style: .expanded) {
                 "\(extentString(shape: shape))"
                 //TODO: How to handle surfaces more generally
                 if !shape.surfaces.isEmpty {
@@ -112,7 +112,7 @@ public struct USDAFileBuilder {
         }
         return document.render(style: .indented)
     }
-
+    
     func dictionaryToEqualSigns(dict:Dictionary<String,String>) ->
     [StringNode] {
         var tmp:[StringNode] = []

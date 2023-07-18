@@ -19,7 +19,7 @@ extension SketchPadCLI {
         var customPath:String? = nil
         
         @Option(name: [.customLong("count"), .customShort("c")],
-              help: "Number of spheres to generate in addition to the blue origin sphere. Default is 12")
+                help: "Number of spheres to generate in addition to the blue origin sphere. Default is 12")
         var count:Int = 2
         
         
@@ -32,7 +32,7 @@ extension SketchPadCLI {
             let fileString_x3d:String = fileBuilder_x3d.generateStringForStage(stage: stage)
             let fileBuilder_usd = USDAFileBuilder()//USDAFileBuilder()
             let fileString_usd:String = fileBuilder_usd.generateStringForStage(stage: stage)
-
+            
             if saveToFile || customPath != nil {
                 let timeStamp = FileIO.timeStamp()
                 let path = customPath ?? "multiball_\(timeStamp).usda"
@@ -64,6 +64,6 @@ extension SketchPadCLI {
             }
         }
     }
-
+    
     
 }
