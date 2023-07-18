@@ -95,7 +95,7 @@ struct Tag:StringNodeable {
     var prefix: String { 
         if let attributes {
             //TODO Make this a choice? Define Tag as being an XML tag?
-            return "<\(name)\(Self.attributesFromDictionaryXML(attributes))>"
+            return "<\(name)\(attributes.asXMLAttribute())>"
         } else {
             return "<\(name)>" 
         }
@@ -117,20 +117,16 @@ struct Tag:StringNodeable {
     
 }
 
-extension Tag {
-    static func attributesFromDictionaryHTML(_ dict:Dictionary<String, String>) -> String {
-        var tmp:String = ""
-        for (key, value) in dict {
-            tmp.append(" \(key.quoted())=\(value.quoted())")
-        }
-        return tmp
-    }
-    static func attributesFromDictionaryXML(_ dict:Dictionary<String, String>) -> String {
-        var tmp:String = ""
-        for (key, value) in dict {
+//Used by Tag
+fileprivate extension Dictionary<String, String> {
+    func asXMLAttribute() ->
+    [String] {
+        var tmp:[String] = []
+        for (key, value) in self {
             tmp.append(" \(key)=\(value.embrace(with: "'"))")
         }
         return tmp
     }
 }
+
 

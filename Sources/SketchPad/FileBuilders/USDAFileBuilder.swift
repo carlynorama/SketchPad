@@ -27,7 +27,7 @@ public struct USDAFileBuilder {
     
     func generateHeader(defaultPrimID:String,
                         fileType:String = "usda",
-                        version:String = "1.0") -> StringNode {
+                        version:String = "1.0") -> StringNodeable {
         var metaData = [
             "defaultPrim":defaultPrimID.quoted(),
             "metersPerUnit":"\(metersPerUnit)",
@@ -38,9 +38,12 @@ public struct USDAFileBuilder {
         }
         return Parens(opening: "#\(fileType) \(version)", 
                       style: .expanded,
-                      content: { .list(dictionaryToEqualSigns(dict: metaData)) } 
-        ).asStringNode
+                      content: {  metaData.equalSigns() }
+        )
     }
+    
+
+    
     
     func colorString(_ red:Double, _ green:Double, _ blue:Double) -> String {
         "color3f[] primvars:displayColor = [(\(red), \(green), \(blue))]"
@@ -90,7 +93,7 @@ public struct USDAFileBuilder {
             if !shape.transformations.isEmpty {
                 transformString(shape:shape)
             }
-            CurlyBraced(opening: "def \(shape.shapeName) \"\(shape.id.lowercased())\"", 
+            CurlyBraced(opening: "def \(shape.shapeName) \"\(shape.id.lowercased())\"",
                         style: .expanded) {
                 "\(extentString(shape: shape))"
                 //TODO: How to handle surfaces more generally
@@ -113,13 +116,16 @@ public struct USDAFileBuilder {
         return document.render(style: .indented)
     }
     
-    func dictionaryToEqualSigns(dict:Dictionary<String,String>) ->
-    [StringNode] {
-        var tmp:[StringNode] = []
-        for (key, value) in dict {
-            tmp.append(.content("\(key) = \(value)"))
+}
+
+//used by generateHeader
+fileprivate extension Dictionary<String, String> {
+    func equalSigns() ->
+    [String] {
+        var tmp:[String] = []
+        for (key, value) in self {
+            tmp.append("\(key) = \(value)")
         }
         return tmp
     }
 }
-

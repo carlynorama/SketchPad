@@ -41,9 +41,7 @@ public struct X3DFileBuilder {
             metaData["description"] = description
         }
         
-        return Tag("head") {
-            .list(dictionaryToMetaTags(dict: metaData))
-        }
+        return Tag("head") { metaData.asMetaTags() }
     }
     
     func metaDateString() -> String {
@@ -52,16 +50,7 @@ public struct X3DFileBuilder {
         return formatter.string(from: Date())
     }
     
-    func dictionaryToMetaTags(dict:Dictionary<String,String>) ->
-    [StringNode] {
-        var tmp:[StringNode] = []
-        for (key, value) in dict {
-            //<meta content="SketchPad" name="generator"/>
-            //Don't for get the / in front of the >
-            tmp.append(.content("<meta content=\(value.quoted()) name=\(key.quoted())/>"))
-        }
-        return tmp
-    }
+
     
     //TODO: X3D Actually has a color type.
     func materialString(_ surfaces:[Surface]) -> String {
@@ -121,3 +110,16 @@ public struct X3DFileBuilder {
     }
 }
 
+//Used by generateHeader
+fileprivate extension Dictionary<String, String> {
+    func asMetaTags() ->
+    [String] {
+        var tmp:[String] = []
+        for (key, value) in self {
+            //<meta content="SketchPad" name="generator"/>
+            //Don't for get the / in front of the >
+            tmp.append("<meta content=\(value.quoted()) name=\(key.quoted())/>")
+        }
+        return tmp
+    }
+}
