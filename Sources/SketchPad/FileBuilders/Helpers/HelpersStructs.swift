@@ -19,7 +19,7 @@ struct Document {
     }
 }
 
-enum BraceStyle {
+enum BraceSpacingStyle {
     case compact, semiCompact, expanded
 }
 
@@ -28,7 +28,7 @@ protocol Bracing:StringNodeable {
     var braceCloser:String { get }
     var precedingText:String? { get set }
     var content: StringNode { get set }
-    var style:BraceStyle { get set }
+    var style:BraceSpacingStyle { get set }
     var asStringNode: StringNode { get }
 } 
 
@@ -58,11 +58,11 @@ struct CurlyBraced:Bracing {
     let braceCloser:String = "}"
     
     var precedingText: String?
-    var style: BraceStyle
+    var style: BraceSpacingStyle
     var content: StringNode
     
     //TODO: Try again to put this as part of the protocol? A Macro?
-    init(opening:String? = nil, style:BraceStyle = .semiCompact, @StringNodeBuilder content: () -> [StringNode]) {
+    init(opening:String? = nil, style:BraceSpacingStyle = .semiCompact, @StringNodeBuilder content: () -> [StringNode]) {
         self.precedingText = opening
         //TODO: What if content is empty or only 1 item?
         self.content = .list(content())
@@ -75,11 +75,11 @@ struct Parens:Bracing {
     let braceCloser:String = ")"
     
     var precedingText: String?
-    var style: BraceStyle
+    var style: BraceSpacingStyle
     var content: StringNode
     
     //TODO: Try again to put this as part of the protocol? A Macro?
-    init(opening:String? = nil, style:BraceStyle = .semiCompact, @StringNodeBuilder content: () -> [StringNode]) {
+    init(opening:String? = nil, style:BraceSpacingStyle = .semiCompact, @StringNodeBuilder content: () -> [StringNode]) {
         self.precedingText = opening
         //TODO: What if content is empty or only 1 item?
         self.content = .list(content())
