@@ -75,7 +75,7 @@ public struct USDAFileBuilder {
     
     //TODO: Right now, can do the one and only one transform
     //Will need to consolidate? Should consolidate
-    func transformString(shape:Geometry) -> StringNode {
+    func transformStringNode(shape:Geometry) -> StringNode {
         if shape.transformations.count != 1 { return .content("") }
         let translate = shape.transformations[0]
         switch translate {
@@ -91,7 +91,7 @@ public struct USDAFileBuilder {
         CurlyBraced(opening: "def Xform \"\(shape.id)\"", style: .expanded) {
             
             if !shape.transformations.isEmpty {
-                transformString(shape:shape)
+                transformStringNode(shape:shape)
             }
             CurlyBraced(opening: "def \(shape.shapeName) \"\(shape.id.lowercased())\"",
                         style: .expanded) {
@@ -126,6 +126,8 @@ fileprivate extension Dictionary<String, String> {
         for (key, value) in self {
             tmp.append("\(key) = \(value)")
         }
+        //Return in alphabetical order?
+        //return tmp.sorted()
         return tmp
     }
 }

@@ -19,6 +19,9 @@ public struct Indent {
 
 
 indirect enum StringNode {
+
+    
+    
     case content(String)
     case container((prefix:String, content:StringNode, suffix:String))
     case list([StringNode])
@@ -99,6 +102,21 @@ indirect enum StringNode {
     
     func indentedString(startLevel:Int = 0) -> String {
         Self.indentStringify(node: self, level: startLevel)
+    }
+}
+
+extension StringNode: Equatable {
+    static func == (lhs: StringNode, rhs: StringNode) -> Bool {
+        switch (lhs, rhs) {
+        case (.container(let lhs), .container(let rhs)):
+            return lhs == rhs
+        case (.content(let lhs), .content(let rhs)):
+            return lhs == rhs
+        case (.list(let lhs), .list(let rhs)):
+            return lhs == rhs
+        default:
+            return false
+        }
     }
 }
 
