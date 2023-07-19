@@ -10,7 +10,7 @@
 # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
 # updated 2023 07 19
 
-name: Swift
+name: Swift Matrix
 
 on: [push]
 
