@@ -17,13 +17,12 @@ public struct Indent {
     }
 }
 
-
 indirect enum StringNode {
-
-    
-    
+    //TODO: do I need an "empty?" currently using .content("")
     case content(String)
+    //TODO: Is a special approach to .content("") and .list([]) needed?
     case container((prefix:String, content:StringNode, suffix:String))
+    //TODO: What to do about list([]) and single item?
     case list([StringNode])
     
     init(_ string:String) {
@@ -137,19 +136,6 @@ enum StringNodeBuilder {
     static func buildOptional(_ component:[StringNode]?) -> [StringNode] {
         component ?? []
     }
-    
-    //Commented out b/c replaced with StringNodeable
-    //    public static func buildExpression(_ expression: String) -> [StringNode] {
-    //        [.content(expression)]
-    //    }
-    //
-    //    static func buildExpression(_ components: String...) -> [StringNode] {
-    //        components.compactMap { .content($0) }
-    //    }
-    //
-    //    static func buildExpression(_ components: [String]...) -> [StringNode] {
-    //        components.flatMap { $0 }.compactMap { .content($0) }
-    //    }
     
     public static func buildExpression(_ expression: StringNodeable) -> [StringNode] {
         [expression.asStringNode]
