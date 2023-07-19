@@ -13,26 +13,31 @@
 
 import XCTest
 @testable import SketchPad
-import RegexBuilder
+//import RegexBuilder
 
 final class USDFileBuilderTests: XCTestCase {
     
     static let defaultBuilder = USDAFileBuilder()
     
-    @available(macOS 13.0, *)
+    //@available(macOS 13.0, *)
     func headerMatch(_ toTest:String) -> Bool {
         
-        let regex = Regex {
-            One("#usda 1.0\n(\n\t")
-            OneOrMore(.any)
-            One("\n)")
-        }
+    //Thank you:
+    //https://paiv.github.io/swift-rxbgen/
+    let regex = /#usda 1\.0([^\)]+)\n\)/
+        
+        
+//        let regex = Regex {
+//            One("#usda 1.0\n(\n\t")
+//            OneOrMore(.any)
+//            One("\n)")
+//        }
         
         if toTest.firstMatch(of: regex) != nil { return true }
         return false
     }
     
-    @available(macOS 13.0, *)
+    //@available(macOS 13.0, *)
     func test_getHeaderStructure() {
         let documentRender = Document {
             Self.defaultBuilder.generateHeader(defaultPrimID: "MyPrim")
