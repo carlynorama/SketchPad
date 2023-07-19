@@ -12,25 +12,21 @@
 import Foundation
 
 @resultBuilder
-struct StringBuilder {
+struct MultiLineStringBuilder {
     static func buildBlock(_ parts: String...) -> String {
-        parts.joined(separator: "\n")
+        buildArray(parts)
     }
-
-    
     static func buildOptional(_ component:String?) -> String {
         component ?? ""
     }
-
     static func buildEither(first component: String) -> String {
         return component
     }
-
     static func buildEither(second component: String) -> String {
         return component
     }
-
     static func buildArray(_ components: [String]) -> String {
-        components.joined(separator: "\n")
+        components.filter( { !$0.isEmpty } ).joined(separator: "\n")
+        
     }
 }

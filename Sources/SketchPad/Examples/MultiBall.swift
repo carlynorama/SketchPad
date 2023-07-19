@@ -1,4 +1,9 @@
-
+//
+//  HelloCanvas.swift
+//
+//
+//  Created by Carlyn Maw on 7/11/23.
+//
 
 public struct MultiBallStage {
     public init(count:Int) {
@@ -7,14 +12,8 @@ public struct MultiBallStage {
     let count:Int
     let minTranslate = -4.0
     let maxTranslate = 4.0
-    // let minX = -4.0
-    //  let maxX = 4.0
-    //  let minY = minX
-    //  let maxY = maxX
-    //  let minZ = minX
-    //  let maxZ = maxX
-     let minRadius = 0.8
-     let maxRadius = 2.0
+    let minRadius = 0.8
+    let maxRadius = 2.0
 
     public func buildStage() -> Canvas3D {
         Canvas3D {

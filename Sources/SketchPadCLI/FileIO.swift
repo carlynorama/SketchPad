@@ -18,36 +18,36 @@
 import Foundation
 
 enum FileIO {
-   
+    
     static func timeStamp() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYYMMdd'T'HHmmss"
         return formatter.string(from: Date()) //<- TODO: confirm that is "now"
         
     }
-
-// Newer style, check against new Foundation. 
-//    func timeStampForFile() -> String {
-//        //Date.now.ISO8601Format()
-//        let date = Date.now
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyyMMdd'T'HHmmss"
-//        return formatter.string(from: date)
-//    }
+    
+    // Newer style, check against new Foundation. 
+    //    func timeStampForFile() -> String {
+    //        //Date.now.ISO8601Format()
+    //        let date = Date.now
+    //        let formatter = DateFormatter()
+    //        formatter.dateFormat = "yyyyMMdd'T'HHmmss"
+    //        return formatter.string(from: date)
+    //    }
     
     static func makeFileURL(filePath:String) -> URL {
         //TODO: For iOS??
         //let locationToWrite = URL.documentsDirectory.appendingPathComponent("testImage", conformingTo: .png)
-        #if os(Linux)
+#if os(Linux)
         return URL(fileURLWithPath: filePath)
-        #else
+#else
         if #available(macOS 13.0, *) {
             return URL(filePath: filePath)
         } else {
             // Fallback on earlier versions
-             return URL(fileURLWithPath: filePath)
+            return URL(fileURLWithPath: filePath)
         }
-        #endif
+#endif
     }
     
     
@@ -55,7 +55,7 @@ enum FileIO {
         let url = makeFileURL(filePath: filePath)
         try data.write(to: url)
     }
-
+    
     static func writeToFile(string:String, filePath:String? = nil) {
         let path = filePath ?? "text_\(timeStamp()).txt"
         do {
@@ -85,7 +85,7 @@ enum FileIO {
             appropriateFor: nil,
             create: false
         )
-
+        
         let fileURL = folderURL.appendingPathComponent(documentName)
         let data = try encoder.encode(value)
         try data.write(to: fileURL)
@@ -114,11 +114,11 @@ enum FileIO {
                 attributes: nil
             )
         }
-
+        
         let fileURL = folderURL.appendingPathComponent(documentName)
         let data = try encoder.encode(value)
         try data.write(to: fileURL)
     }
-    #endif
+#endif
     
 }
