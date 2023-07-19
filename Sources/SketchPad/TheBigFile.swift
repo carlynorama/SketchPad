@@ -112,14 +112,16 @@ public enum Surface {
 
 public struct Sphere:Geometry {
     static var shapeName = "Sphere"
-    public let id:String = IdString.make(prefix: Self.shapeName)
+    
+    public var id:String
     let radius:Double
     
     public var shapeName: String {
         Self.shapeName
     }
     
-    public init(radius: Double, transformations:[Transformation] = []) {
+    public init(id:String? = nil, radius: Double, transformations:[Transformation] = []) {
+        self.id = id ?? IdString.make(prefix: Self.shapeName)
         self.radius = radius
         self.transformations = transformations
     }

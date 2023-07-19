@@ -21,6 +21,7 @@ let package = Package(
             name: "SketchPad"
         ),
         .testTarget(name: "FileBuilderTests", dependencies: ["SketchPad"]),
+        .testTarget(name: "SketchPadTests", dependencies: ["SketchPad"]),
         .executableTarget(
             name: "SketchPadCLI",
             dependencies: [
