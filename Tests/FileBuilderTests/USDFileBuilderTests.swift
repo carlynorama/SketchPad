@@ -13,28 +13,22 @@
 
 import XCTest
 @testable import SketchPad
-//import RegexBuilder
 
 final class USDFileBuilderTests: XCTestCase {
     
     static let defaultBuilder = USDAFileBuilder()
     
-    //@available(macOS 13.0, *)
+    //This function was changed to use older version of
+    //regex so package would be backwards compatible to MacOS 12
+    //without if @availables.
     func headerMatch(_ toTest:String) -> Bool {
         
-    //Thank you:
-    //https://paiv.github.io/swift-rxbgen/
-    let regex = /#usda 1\.0([^\)]+)\n\)/
-        
-        
-//        let regex = Regex {
-//            One("#usda 1.0\n(\n\t")
-//            OneOrMore(.any)
-//            One("\n)")
-//        }
-        
-        if toTest.firstMatch(of: regex) != nil { return true }
-        return false
+        let pattern = #"#usda 1\.0([^\)]+)\n\)"#
+        var result = toTest.range(
+            of: pattern,
+            options: .regularExpression
+        )
+        return (result != nil)
     }
     
     //@available(macOS 13.0, *)

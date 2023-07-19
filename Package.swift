@@ -5,10 +5,6 @@ import PackageDescription
 
 let package = Package(
     name: "SketchPad",
-    // TODO: When get CLI use to use async?
-     platforms: [
-         .macOS(.v13),
-     ],
     products: [
         .library(name: "SketchPad", targets: ["SketchPad"]),
         .executable(name: "sketchpad", targets: ["SketchPadCLI"])
@@ -32,16 +28,16 @@ let package = Package(
     ]
 )
 
-let swiftSettings: [SwiftSetting] = [
-    // -enable-bare-slash-regex becomes
-    .enableUpcomingFeature("BareSlashRegexLiterals"),
-    // -warn-concurrency becomes
-    .enableUpcomingFeature("StrictConcurrency"),
-    .unsafeFlags(["-enable-actor-data-race-checks"],
-        .when(configuration: .debug)),
-]
-
-for target in package.targets {
-    target.swiftSettings = target.swiftSettings ?? []
-    target.swiftSettings?.append(contentsOf: swiftSettings)
-}
+//let swiftSettings: [SwiftSetting] = [
+//    // -enable-bare-slash-regex becomes
+//    .enableUpcomingFeature("BareSlashRegexLiterals"),
+//    // -warn-concurrency becomes
+//    .enableUpcomingFeature("StrictConcurrency"),
+//    .unsafeFlags(["-enable-actor-data-race-checks"],
+//        .when(configuration: .debug)),
+//]
+//
+//for target in package.targets {
+//    target.swiftSettings = target.swiftSettings ?? []
+//    target.swiftSettings?.append(contentsOf: swiftSettings)
+//}
