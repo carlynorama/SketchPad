@@ -20,18 +20,18 @@ extension SketchPadCLI {
         
         @Option(name: [.customLong("count"), .customShort("c")],
                 help: "Number of spheres to generate in addition to the blue origin sphere. Default is 12")
-        var count:Int = 18
+        var count:Int = 199
         
         @Option(name: [.customLong("radius"), .customShort("r")],
                 help: "Number of spheres to generate in addition to the blue origin sphere. Default is 12")
-        var radius:Int = 12
+        var radius:Double = 12
         
         
         static var configuration =
         CommandConfiguration(abstract: "Generate a USDA file that references sphere_base.usda like previous examples. 12 + blue origin ball is the default count")
         
         func run() {
-            let stage = Ring(count:count, radius: 12).buildStage()
+            let stage = RandomShell(count:count, radius: 12).buildStage()
             let fileBuilder_x3d = X3DFileBuilder()//USDAFileBuilder()
             let fileString_x3d:String = fileBuilder_x3d.generateStringForStage(stage: stage)
             let fileBuilder_usd = USDAFileBuilder()//USDAFileBuilder()
