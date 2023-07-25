@@ -17,7 +17,7 @@ public struct Ring {
     let radius:Double
     let ratio:Double
 
-    //TODO: Should be static on Canvas3D
+    //TODO: Should be static on Canvas3D?
     let tau = Double.pi * 2
 
     public func buildStage() -> Canvas3D {
@@ -37,10 +37,8 @@ public struct Ring {
                      green: 0.2, //Double.random(in: 0...1),
                      blue: cos(theta) //tau/theta
                  )
-                 //The ranges are all the same in this case.
                  .translateBy(Vector(x: x, y: y, z: 0.0))
              }
         }
     }
-
 }

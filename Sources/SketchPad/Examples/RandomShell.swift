@@ -40,7 +40,6 @@ public struct RandomShell {
                      green: cos(theta).magnitude, //Double.random(in: 0...1),
                     blue: sin(phi).magnitude //tau/theta
                  )
-                 //The ranges are all the same in this case.
                  .translateBy(Vector(x: x, y: y, z: z))
              }
         }

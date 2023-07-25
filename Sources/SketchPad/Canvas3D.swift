@@ -10,6 +10,7 @@
 import Foundation
 
 public struct Canvas3D {
+    
     let content:[Sphere]
     public init(@Canvas3DBuilder content: () -> [Sphere]) {
         self.content = content()
