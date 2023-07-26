@@ -101,7 +101,7 @@ public struct SpiralShell {
             //comparing to generatePoints_SOV1, functionally very similar
             //i.e. get a value based on a percentage thats been mapped to
             //a value between -1 and 1
-            //In _SOV1 its treated as the Y, here it will be the Y
+            //In _SOV1 its treated as the Y, here it will be the Z
             let polar:Double = acos(1 - 2*shiftedIndex/Double(count))
             let azimuthal:Double = goldenAngleThree * shiftedIndex
             
