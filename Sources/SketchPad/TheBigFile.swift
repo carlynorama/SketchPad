@@ -32,6 +32,10 @@ public struct Vector {
         self.z = z
     }
     
+    func scaled(by value:Double) -> Vector {
+        Vector(x: x*value, y: y*value, z: z*value)
+    }
+    
     static func random(range:ClosedRange<Double>) -> Self {
         Self(x: .random(in: range), y: .random(in: range), z: .random(in: range))
     }

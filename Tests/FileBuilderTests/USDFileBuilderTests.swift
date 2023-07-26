@@ -23,7 +23,7 @@ final class USDFileBuilderTests: XCTestCase {
     //without if @availables.
     func headerMatch(_ toTest:String) -> Bool {
         
-        let pattern = #"#usda 1\.0([^\)]+)\n\)"#
+        let pattern = #"^#usda 1\.0\n\([\s\S]+\n\)$"#
         var result = toTest.range(
             of: pattern,
             options: .regularExpression
