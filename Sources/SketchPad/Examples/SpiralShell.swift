@@ -10,8 +10,6 @@ import Foundation
 //https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere
 // Actual article: https://arxiv.org/pdf/0912.4540.pdf
 
-//TODO: Not placement at poles
-
 public struct SpiralShell {
     public init(count:Int, radius:Double, ratio:Double = 0.1) {
         self.count = count
@@ -52,6 +50,7 @@ public struct SpiralShell {
     
     //Revised from https://stackoverflow.com/a/26127012/5946596
     //"Top", (low) indices, start at max Y. Spiral is around Y axis
+    //TODO: No placement at poles
     func generatePoints_SOV1(count:Int, radius:Double) -> [Vector] {
         var points:[Vector] = []
         for i in 1...count {
