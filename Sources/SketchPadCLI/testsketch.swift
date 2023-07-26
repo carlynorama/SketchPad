@@ -31,7 +31,7 @@ extension SketchPadCLI {
         CommandConfiguration(abstract: "Generate a USDA file that references sphere_base.usda like previous examples. 12 + blue origin ball is the default count")
         
         func run() {
-            let stage = SpiralShell(count:count, radius: 12).buildStage()
+            let stage = Ring(count:18, radius: 12).buildStage()
             let fileBuilder_x3d = X3DFileBuilder()//USDAFileBuilder()
             let fileString_x3d:String = fileBuilder_x3d.generateStringForStage(stage: stage)
             let fileBuilder_usd = USDAFileBuilder()//USDAFileBuilder()

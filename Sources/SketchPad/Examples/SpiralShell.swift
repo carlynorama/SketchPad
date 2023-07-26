@@ -51,6 +51,7 @@ public struct SpiralShell {
     }
     
     //Revised from https://stackoverflow.com/a/26127012/5946596
+    //"Top", (low) indices, start at max Y. Spiral is around Y axis
     func generatePoints_SOV1(count:Int, radius:Double) -> [Vector] {
         var points:[Vector] = []
         for i in 1...count {
@@ -86,19 +87,37 @@ public struct SpiralShell {
 
     
     //Revised from https://stackoverflow.com/a/44164075/5946596
+    //"Top", (low) indices, start at max z. Spiral is around Z axis.
     func generatePoints_SOV2(count:Int, radius:Double) -> [Vector] {
         var points:[Vector] = []
-        for i in 1..<count {
+        //original code uses numpy's "arrange" (evenly spaced values
+        //within a given interval) to create indices.
+        for i in 0..<count {
             
-            //comparing to generatePoints_SOV1
-            //let sin_polar:Double = 1 - (Double(i) / Double(count - 1)) * 2
-            //let cos_polar = (1.0 - sin_polar * sin_polar).squareRoot()
-            //let polar = acos(cos_polar)
-            let polar:Double = acos(1 - 2*Double(i)/Double(count))
+            //offset effects packing. See references in blog post.
+            //could also fuzz the value here to blur lines since not using arrange.
+            let shiftedIndex = Double(i)+0.5
             
-            let azimuthal:Double = goldenAngleThree * Double(i)
+            //comparing to generatePoints_SOV1, functionally very similar
+            //i.e. get a value based on a percentage thats been mapped to
+            //a value between -1 and 1
+            //In _SOV1 its treated as the Y, here it will be the Y
+            let polar:Double = acos(1 - 2*shiftedIndex/Double(count))
+            let azimuthal:Double = goldenAngleThree * shiftedIndex
             
-            points.append(sphericalCoordinate(theta: polar, phi: azimuthal).scaled(by: radius))
+            //As original, z-axis winding
+            points.append(Vector(
+                x: cos(azimuthal) * sin(polar),
+                y: sin(azimuthal) * sin(polar),
+                z: cos(polar)
+            ).scaled(by: radius))
+            
+            //If would prefer y-axis instead.
+//            points.append(Vector(
+//                x: cos(azimuthal) * sin(polar),
+//                y: cos(polar),
+//                z: sin(azimuthal) * sin(polar)
+//            ).scaled(by: radius))
         }
 
         return points
@@ -152,60 +171,3 @@ public struct SpiralShell {
 
 }
 
-
-//    func generateCylindricalPoints(count:Int, radius:Double) -> [Vector] {
-//
-//        var points:[Vector] = []
-//        let phi = Double.pi * ((5.0).squareRoot() - 1.0)  // golden angle in radians
-//
-//        for i in 0..<count {
-//
-//            let y:Double = 1 - (Double(i) / Double(count - 1)) * 2  // y goes from 1 to -1
-////            let radius = (1.0 - y * y).squareRoot()  // radius at y
-//
-//            let theta = phi * Double(i)  // golden angle increment
-//
-//            let x = cos(theta) * radius
-//            let z = sin(theta) * radius
-//
-//            points.append(Vector(x: x, y: y*radius, z: z))
-//
-//        }
-//        return points
-//    }
-
-//
-////From answer
-////https://stackoverflow.com/a/26127012/5946596
-//func generateSphericalPoints(count:Int, radius:Double) -> [Vector] {
-//
-//    var points:[Vector] = []
-//    //chose the complimentary to goldenAngle, ~222.5
-//    let goldenAngleCompliment = Double.pi * ((5.0).squareRoot() - 1.0)
-//
-//    for i in 0..<count {
-//
-//        let y:Double = 1 - (Double(i) / Double(count - 1)) * 2  // y goes from 1 to -1
-//        let r = (1.0 - y * y).squareRoot()  // radius at y
-//        let theta = goldenAngleCompliment * Double(i)  // golden angle increment
-//
-//        let x = cos(theta) * r
-//        let z = sin(theta) * r
-//
-//        points.append(Vector(x: x, y: y, z: z).scaled(radius))
-//    }
-//    return points
-//}
-
-// Before comments
-//func sphericalPoints2(count:Int, radius:Double) -> [Vector] {
-//    var points:[Vector] = []
-//    for i in 0...count {
-//        let phi:Double = acos(1 - 2*Double(i)/Double(count))
-//        let theta:Double = Double.pi * (1 + (5.0).squareRoot()) * Double(i)
-//
-//        points.append(sphericalCoordinate(theta: theta, phi: phi).scaled(radius))
-//    }
-//
-//    return points
-//}
