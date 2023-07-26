@@ -38,6 +38,11 @@ public enum Canvas3DBuilder {
         [expression]
     }
     
+    public static func buildExpression(_ expression: Sphere?) -> [Sphere] {
+        if let expression { return [expression] }
+        else { return [] }
+    }
+    
     public static func buildOptional(_ component: [Sphere]?) -> [Sphere] {
         component ?? []
     }
