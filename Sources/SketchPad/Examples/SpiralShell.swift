@@ -25,9 +25,9 @@ public struct SpiralShell {
     
     let goldenRatio = (1 + (5.0).squareRoot())/2
     //https://en.wikipedia.org/wiki/Golden_angle
-    let goldenAngle = Double.pi * (3-(5.0).squareRoot())
-    let goldenAngleCompliment = Double.pi * ((5.0).squareRoot() - 1.0)
-    let goldenAngleThree =  Double.pi * (1 + (5.0).squareRoot())
+    let goldenAngle = Double.pi * (3-(5.0).squareRoot()) // 2.399963229728653
+    let goldenAngleCompliment = Double.pi * ((5.0).squareRoot() - 1.0) // 3.883222077450933
+    let goldenAngleThree =  Double.pi * (1 + (5.0).squareRoot()) //10.166407384630519
 
     public func buildStage() -> Canvas3D {
         print(goldenAngle, goldenAngleCompliment, goldenAngleThree)
@@ -98,9 +98,12 @@ public struct SpiralShell {
             let shiftedIndex = Double(i)+0.5
             
             //comparing to generatePoints_SOV1, functionally very similar
-            //i.e. get a value based on a percentage thats been mapped to
-            //a value between -1 and 1
-            //In _SOV1 its treated as the Y, here it will be the Z
+            //i.e.
+            //    - get a value based on a percentage into the count
+            //    - map it to a value between -1 and 1,
+            //    - treat that as either the sin or cos value depending
+            //      on which axis should be the spindle
+            //In _SOV1 the Y is the spindle, here it will be the Z
             let polar:Double = acos(1 - 2*shiftedIndex/Double(count))
             let azimuthal:Double = goldenAngleThree * shiftedIndex
             
@@ -148,6 +151,29 @@ public struct SpiralShell {
         let z = cos(theta)
         return Vector(x: x, y: y, z: z)
     }
+    
+    
+    
+    //Cleaned up for future use
+    func generatePoints(count:Int, radius:Double) -> [Vector] {
+        var points:[Vector] = []
+        for i in 0..<count {
+            let shiftedIndex = Double(i)+0.5
+            
+            let polar:Double = acos(1 - 2*shiftedIndex/Double(count))
+            let azimuthal:Double = goldenAngle * shiftedIndex
+            
+            // y-axis spindle instead.
+            points.append(Vector(
+                x: cos(azimuthal) * sin(polar),
+                y: cos(polar),
+                z: sin(azimuthal) * sin(polar)
+            ).scaled(by: radius))
+        }
+        return points
+    }
+    
+    
     
     
     
