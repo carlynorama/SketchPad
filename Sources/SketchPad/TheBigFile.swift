@@ -32,7 +32,7 @@ public struct Vector {
         self.z = z
     }
     
-    func scaled(_ value:Double) -> Vector {
+    func scaled(by value:Double) -> Vector {
         Vector(x: x*value, y: y*value, z: z*value)
     }
     

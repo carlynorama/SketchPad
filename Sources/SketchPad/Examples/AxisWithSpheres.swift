@@ -1,5 +1,5 @@
 //
-//  SphereWithAxis.swift
+//  AxisWithSpheres.swift
 //
 //
 //  Created by Carlyn Maw on 7/25/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SphereWithAxis {
+public struct AxisWithSpheres {
     public init(count:Int, radius:Double, ratio:Double = 0.1) {
         self.count = count
         self.radius = radius
@@ -28,16 +28,16 @@ public struct SphereWithAxis {
         
         let r = radius/2
         
-        let theta = π/4
-        let phi:Double = π/8
+        let polar = π/4
+        let azimuthal = π/8
         
         return Canvas3D {
             Sphere(radius: sphere_radius*3)
                 .color(red: 0.1, green: 0.8, blue: 1)
-                .translateBy(sphericalCoordinate(xyPlane: theta, xzPlane: phi).scaled(r))
+                .translateBy(sphericalCoordinate(xyPlane: polar, xzPlane: azimuthal).scaled(by: r))
             Sphere(radius: sphere_radius*3)
                 .color(red: 1, green: 0.8, blue: 0.1)
-                .translateBy(sphericalCoordinate(theta: theta, phi: phi).scaled(r))
+                .translateBy(sphericalCoordinate(theta: polar, phi: azimuthal).scaled(by: r))
             
             for i in 0...count {
                 Sphere(radius: sphere_radius)
