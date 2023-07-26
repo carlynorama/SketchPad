@@ -21,7 +21,7 @@ enum IdString {
     // }    
 }
 
-public struct Vector {
+public struct Vector:Hashable {
     let x:Double
     let y:Double
     let z:Double
