@@ -10,6 +10,7 @@
 //import simd
 import Foundation
 
+//TODO: Not guaranteed to be unique. This causes trouble. 
 enum IdString {
     static func make(prefix:String) -> String {
         "\(prefix)_\(Int.random(in: 10000..<100000))"
