@@ -11,6 +11,20 @@
 //  Created by Carlyn Maw on 7/18/23.
 //
 
+struct Assembly: Layer {
+    var content: some Layer {
+        Sphere(radius: 15)
+    }
+}
+
+struct Stage:Layer {
+    var content: some Layer {
+        Assembly()
+        Sphere(radius: 15)
+    }
+    
+}
+
 import XCTest
 @testable import SketchPad
 //

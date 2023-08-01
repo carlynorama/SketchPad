@@ -115,7 +115,11 @@ public enum Surface {
 }
 
 
-public struct Sphere:Geometry {
+public struct Sphere:Geometry, Layer, RenderableLayer {
+    func render(engine: FileBuilder) {
+        print("HELLO!")
+    }
+    
     static var shapeName = "Sphere"
     
     public var id:String
