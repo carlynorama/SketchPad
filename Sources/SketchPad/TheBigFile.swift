@@ -114,11 +114,11 @@ public enum Surface {
     case displayColor((r:Double, g:Double, b:Double))
 }
 
-
-public struct Sphere:Geometry, Layer, RenderableLayer {
-    func render(engine: FileBuilder) {
-        print("HELLO!")
-    }
+//public struct Sphere:Geometry, Layer, RenderableLayer {
+public struct Sphere:Geometry {
+//    func render(engine: FileBuilder) {
+//        print("HELLO!")
+//    }
     
     static var shapeName = "Sphere"
     

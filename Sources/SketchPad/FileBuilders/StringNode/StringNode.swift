@@ -17,13 +17,14 @@ public struct Indent {
     }
 }
 
-indirect enum StringNode {
+
+enum StringNode {
     //TODO: do I need an "empty?" currently using .content("")
     case content(String)
     //TODO: Is a special approach to .content("") and .list([]) needed?
-    case container((prefix:String, content:StringNode, suffix:String))
+    indirect case container((prefix:String, content:StringNode, suffix:String))
     //TODO: What to do about list([]) and single item?
-    case list([StringNode])
+    indirect case list([StringNode])
     
     init(_ string:String) {
         self = .content(string)
