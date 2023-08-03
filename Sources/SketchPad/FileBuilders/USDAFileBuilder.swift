@@ -116,6 +116,10 @@ public struct USDAFileBuilder {
         return document.render(style: .multilineIndented)
     }
     
+    public func generateStringForStage(stage:some Layer) -> String {
+        stage._render(context: "")
+    }
+    
 }
 
 //used by generateHeader

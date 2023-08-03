@@ -14,3 +14,15 @@ public struct HelloCanvas {
         }
     }
 }
+
+
+public struct HelloLayers {
+    public init() {}
+    public func buildStage() -> some Layer {
+        Assembly {
+            Sphere(radius: 10)
+            Sphere(radius: 10)
+            Sphere(radius: 10)
+        }
+    }
+}

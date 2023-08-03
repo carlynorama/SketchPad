@@ -53,7 +53,7 @@ public struct Bounds3D {
     var maxBounds:Vector
 }
 
-public protocol Geometry:Transformable & Boundable & Surfaceable {
+public protocol Geometry:Transformable & Boundable & Surfaceable & Layer & RenderableLayer {
     var id:String { get }
     var shapeName:String { get }
 }
@@ -116,9 +116,6 @@ public enum Surface {
 
 //public struct Sphere:Geometry, Layer, RenderableLayer {
 public struct Sphere:Geometry {
-//    func render(engine: FileBuilder) {
-//        print("HELLO!")
-//    }
     
     static var shapeName = "Sphere"
     
