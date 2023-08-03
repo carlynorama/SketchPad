@@ -15,45 +15,46 @@ public protocol Layer {
 
 //Indicate a leaf by conforming it to renderable.
 
-public typealias RenderContext = String
+typealias RenderContext = [any StringNodeable]
 
-public protocol RenderableLayer {
+protocol RenderableLayer {
 //    static var renderKey:String { get }
     var id:String { get }
     func render(context:RenderContext) -> RenderContext
-    typealias Body = Never
+    
 }
 
 extension RenderableLayer {
-    public func render(context:RenderContext) -> RenderContext {
-        "\(context)\(id)"
+    public typealias Body = Never
+    func render(context:RenderContext) -> RenderContext {
+        context + ["\(id)"]
     }
 }
 
-public extension Layer where Body == Never {
-    var body: Never { fatalError("This should never be called.") }
+extension Layer where Body == Never {
+    public var body: Never { fatalError("This should never be called.") }
 }
 
 extension Never: Layer {
-    public var id:String { "Never" }
+    var id:String { "Never" }
     public typealias Body = Never
 }
 
 
-public extension Layer {
+extension Layer {
     func _render(context:RenderContext) -> RenderContext  {
         if let bottom = self as? RenderableLayer {
             //print("Found a bottom \(id)")
             return bottom.render(context: context)
         } else {
             //print("Not yet. \(id)")
-            return body._render(context: "\(context)>")
+            return body._render(context: context)
         }
     }
 }
 
 @resultBuilder
-public enum LayerBuilder {
+enum LayerBuilder {
 
     public static func buildPartialBlock<L: Layer>(first: L) -> some Layer {
         first
@@ -117,7 +118,7 @@ struct IndentedAssembly<Element:Layer>:Layer, RenderableLayer  {
         print(self)
         var holding = context
         for element in elements {
-            holding = element._render(context: "\(holding)\n\t")
+            holding = element._render(context: holding + ["\n\t"])
         }
         return holding
     }
@@ -171,29 +172,8 @@ func testNewLayers() {
     }
 
     //print(test)
-    let result = test._render(context: "")
+    let result = test._render(context: [])
     print(result)
     
 }
 
-
-//let ctest = Tuple2Layer(first: Circle(), second: Square())
-//ctest._render()
-
-//public protocol FileBuilder {
-//    func generateStringForLayer(layer:some Layer) -> String
-//}
-//
-//struct MyRenderer:FileBuilder {
-//    func generateStringForLayer(layer: some Layer) -> String {
-//        "Yup."
-//    }
-//}
-//struct AnyLayer:Layer, RenderableLayer {
-//    var id:String { "Any" }
-//    func render() {
-//        value._render()
-//    }
-//
-//    let value:any Layer
-//}

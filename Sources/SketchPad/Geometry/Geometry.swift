@@ -8,7 +8,7 @@
 import Foundation
 
 
-public protocol Geometry:Transformable & Boundable & Surfaceable & Layer & RenderableLayer {
+protocol Geometry:Transformable & Boundable & Surfaceable & Layer & RenderableLayer {
     var id:String { get }
     var shapeName:String { get }
 }

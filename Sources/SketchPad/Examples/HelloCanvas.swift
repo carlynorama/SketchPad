@@ -20,9 +20,8 @@ public struct HelloLayers {
     public init() {}
     public func buildStage() -> some Layer {
         Assembly {
-            Sphere(radius: 10)
-            Sphere(radius: 10)
-            Sphere(radius: 10)
+            Sphere(radius:1).translateBy(Vector(x:3, y: 2, z: 5))
+            Sphere(radius:0.5).color(red:0.5, green:0.5, blue:1.0)
         }
     }
 }
