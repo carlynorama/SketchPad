@@ -49,7 +49,7 @@ public struct USDAFileBuilder {
         "color3f[] primvars:displayColor = [(\(red), \(green), \(blue))]"
     }
     
-    func colorString(shape:Geometry) -> String {
+    func colorString(shape:any Geometry) -> String {
         //There has been a problem.
         if shape.surfaces.count != 1 { fatalError() }
         let color = shape.surfaces[0]
@@ -66,7 +66,7 @@ public struct USDAFileBuilder {
         "double radius = \(radius)"
     }
     
-    func extentString(shape:Geometry) -> String {
+    func extentString(shape:any Geometry) -> String {
         let min = shape.currentBounds.minBounds
         let max = shape.currentBounds.maxBounds
         return "float3[] extent = [(\(min.x), \(min.y), \(min.z)), (\(max.x), \(max.y), \(max.z))]"
@@ -75,7 +75,7 @@ public struct USDAFileBuilder {
     
     //TODO: Right now, can do the one and only one transform
     //Will need to consolidate? Should consolidate
-    func transformStringNode(shape:Geometry) -> StringNode {
+    func transformStringNode(shape:any Geometry) -> StringNode {
         if shape.transformations.count != 1 { return .content("") }
         let translate = shape.transformations[0]
         switch translate {
