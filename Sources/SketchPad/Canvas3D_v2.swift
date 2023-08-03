@@ -21,6 +21,7 @@ protocol RenderableLayer {
 //    static var renderKey:String { get }
     var id:String { get }
     func render(context:RenderContext) -> RenderContext
+    func ids(items:[String]) -> [String]
     
 }
 
@@ -80,15 +81,40 @@ struct Tuple2Layer<First:Layer, Second:Layer>: Layer, RenderableLayer {
     func render(context:RenderContext) -> RenderContext {
         second._render(context: first._render(context: context))
     }
+    
+    func ids(items:[String]) -> [String] {
+        second._walk(items: first._walk(items: items))
+    }
 }
 
 //----------------------------------------------------------------------
 //MARK: Group Types
 
-struct Assembly<Body:Layer>:Layer {
+struct Stage<Body:Layer>:Layer {
     var body: Body
     public init(@LayerBuilder body: () -> Body) {
         self.body = body()
+    }
+}
+
+//----------------------------------------------------------------------
+//MARK: Walk
+
+extension Layer {
+    public func _walk(items:[String]) -> [String] {
+        if let bottom = self as? RenderableLayer {
+            //print("Found a bottom \(id)")
+            return bottom.ids(items: items)
+        } else {
+            //print("Not yet. \(id)")
+            return body._walk(items: items)
+        }
+    }
+}
+
+extension RenderableLayer {
+    func ids(items:[String]) -> [String] {
+        items + ["\(id)"]
     }
 }
 

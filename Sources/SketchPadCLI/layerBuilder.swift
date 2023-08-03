@@ -29,6 +29,9 @@ extension SketchPadCLI {
             print(builder.generateStringForStage(stage: layerStage))
             let path_l = "testLayerUSD_\(FileIO.timeStamp()).usd"
             FileIO.writeToFile(string:builder.generateStringForStage(stage:layerStage), filePath: path_l)
+            
+            let results = layerStage._walk(items: [])
+            print(results)
 
         }
     }
