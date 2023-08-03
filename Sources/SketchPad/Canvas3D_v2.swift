@@ -81,19 +81,6 @@ struct Tuple2Layer<First:Layer, Second:Layer>: Layer, RenderableLayer {
         second._render(context: first._render(context: context))
     }
 }
-//----------------------------------------------------------------------
-//MARK: Rendering
-
-//public protocol FileBuilder {
-//    func generateStringForLayer(layer:some Layer) -> String
-//}
-//
-//struct MyRenderer:FileBuilder {
-//    func generateStringForLayer(layer: some Layer) -> String {
-//        "Yup."
-//    }
-//}
-
 
 //----------------------------------------------------------------------
 //MARK: Group Types
@@ -105,75 +92,21 @@ struct Assembly<Body:Layer>:Layer {
     }
 }
 
-struct IndentedAssembly<Element:Layer>:Layer, RenderableLayer  {
-    var id: String { "Assembly2" }
-
-    var elements: [Element]
-
-    public init(elements:[Element]) {
-        self.elements = elements
-    }
-
-    func render(context:RenderContext) -> RenderContext {
-        print(self)
-        var holding = context
-        for element in elements {
-            holding = element._render(context: holding + ["\n\t"])
-        }
-        return holding
-    }
-}
-
-////----------------------------------------------------------------------
-////MARK: Geometries
-//protocol Geometry: Layer & RenderableLayer {}
+//struct IndentedAssembly<Element:Layer>:Layer, RenderableLayer  {
+//    var id: String { "Assembly2" }
 //
-//struct Circle:Geometry {
-//    var id:String { "Circle" }
-//}
+//    var elements: [Element]
 //
-//struct Square:Geometry {
-//    var id:String { "Square" }
-//}
+//    public init(elements:[Element]) {
+//        self.elements = elements
+//    }
 //
-//struct Trapazoid:Geometry {
-//    var id: String { "Trapazoid " }
+//    func render(context:RenderContext) -> RenderContext {
+//        print(self)
+//        var holding = context
+//        for element in elements {
+//            holding = element._render(context: holding + ["\n\t"])
+//        }
+//        return holding
+//    }
 //}
-//
-//struct Triangle:Geometry {
-//    var id:String { "Triangle" }
-////    func render() {
-////        print("I am a teapot")
-////    }
-//}
-
-//----------------------------------------------------------------------
-//MARK: Examples
-
-
-func testNewLayers() {
-    //let insert = IndentedAssembly(elements: [Triangle(),Triangle(),Triangle()])
-
-
-    //let insert = IndentedAssembly {
-    //    Triangle()
-    //    Triangle()
-    //    Triangle()
-    //}
-
-    let test = Assembly {
-        Sphere(radius: 10)
-        Sphere(radius: 10)
-        Sphere(radius: 10)
-//        Cube()
-//        insert
-//        Cube()
-//        Circle()
-    }
-
-    //print(test)
-    let result = test._render(context: [])
-    print(result)
-    
-}
-
