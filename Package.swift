@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "SketchPad",
+    platforms: [
+        .macOS(.v10_15)
+    ],
     products: [
         .library(name: "SketchPad", targets: ["SketchPad"]),
         .executable(name: "sketchpad", targets: ["SketchPadCLI"])
