@@ -97,7 +97,7 @@ public struct USDAFileBuilder {
         shape.forUSDA()
     }
     
-    public func generateStringForStage(stage:Canvas3D) -> String {
+    public func generateStringForStage(stage:Stage) -> String {
         let document = Document {
             generateHeader(defaultPrimID:stage.content[defaultPrimIndex].id)
             for item in stage.content {
@@ -108,9 +108,9 @@ public struct USDAFileBuilder {
     }
     
     public func generateStringForStage(stage:some Layer) -> String {
-        
+        let items = stage._walk(items: [])
         let document = Document {
-            stage._render(context: [generateHeader(defaultPrimID:"fakeit")])
+            stage._render(context: [generateHeader(defaultPrimID:items[defaultPrimIndex])])
         }
         
         return document.render(style: .multilineIndented)

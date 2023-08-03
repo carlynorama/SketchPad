@@ -23,10 +23,10 @@ public struct RandomShell {
     let tau = Double.pi * 2
     let π = Double.pi
 
-    public func buildStage() -> Canvas3D {
+    public func buildStage() -> Stage {
         let sun_color = 0.9
         let sphere_radius = radius*ratio
-        return Canvas3D {
+        return Stage {
             Sphere(radius: sphere_radius).color(red: sun_color, green: sun_color, blue: sun_color)
              for _ in 0..<count {
                  let theta = Double.random(in: 0...π)

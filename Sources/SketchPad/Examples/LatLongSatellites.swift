@@ -21,7 +21,7 @@ public struct LatLongSatellites {
     
     let tau = Double.pi * 2
     
-    public func buildStage() -> Canvas3D {
+    public func buildStage() -> Stage {
         let sphere_radius = radius*ratio
         
         let base_lat_dy = 2.0/Double(parallelCount-1)
@@ -30,7 +30,7 @@ public struct LatLongSatellites {
         
         var coordinateSet:Set<Vector> = []
         
-        return Canvas3D {
+        return Stage {
             for i in 0..<parallelCount {
                 for j in 0..<meridianCount {
                     makeSphere(parallel: i, meridian: j)

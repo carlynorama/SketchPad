@@ -29,12 +29,12 @@ public struct SpiralShell {
     let goldenAngleCompliment = Double.pi * ((5.0).squareRoot() - 1.0) // 3.883222077450933
     let goldenAngleThree =  Double.pi * (1 + (5.0).squareRoot()) //10.166407384630519
 
-    public func buildStage() -> Canvas3D {
+    public func buildStage() -> Stage {
         print(goldenAngle, goldenAngleCompliment, goldenAngleThree)
         let sun_color = 0.9
         let sphere_radius = radius*ratio
         let points = generatePoints_SOV2(count: count, radius:radius)
-        return Canvas3D {
+        return Stage {
             Sphere(radius: sphere_radius).color(red: sun_color, green: sun_color, blue: sun_color)
              for point in points {
                  Sphere(radius: sphere_radius)

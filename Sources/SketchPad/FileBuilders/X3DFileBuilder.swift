@@ -94,7 +94,7 @@ public struct X3DFileBuilder {
         return content
     }
     
-    public func generateStringForStage(stage:Canvas3D) -> String {
+    public func generateStringForStage(stage:Stage) -> String {
         let document = Document {
             TopMatter
             Tag("X3D", attributes: X3DAttributes) {
