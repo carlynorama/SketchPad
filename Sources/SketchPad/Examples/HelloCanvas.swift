@@ -20,9 +20,18 @@ public struct HelloCanvas {
 public struct HelloLayers {
     public init() {}
     public func buildStage() -> some Layer {
-        Stage {
-            Sphere(radius:1).translateBy(Vector(x:3, y: 2, z: 5))
-            Sphere(radius:0.5).color(red:0.5, green:0.5, blue:1.0)
+        let hello = false
+        return Stage {
+            if !hello {
+                Sphere(radius:1).translateBy(Vector(x:3, y: 2, z: 5))
+                Cube(side: 3)
+                //Sphere(radius:0.5).color(red:0.5, green:0.5, blue:1.0)
+            }
+            if hello {
+                Sphere(radius:0.5).color(red:0.5, green:0.5, blue:1.0)
+            } else {
+                Cube(side: 4)
+            }
         }
     }
 }

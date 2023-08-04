@@ -25,15 +25,15 @@ public protocol Layer {
 
 typealias RenderContext = [any StringNodeable]
 
-protocol RenderableLayer {
-//    static var renderKey:String { get }
+protocol _RenderableLayer {
+    //    static var renderKey:String { get }
     var id:String { get }
     func render(context:RenderContext) -> RenderContext
     func ids(items:[String]) -> [String]
     
 }
 
-extension RenderableLayer {
+extension _RenderableLayer {
     public typealias Body = Never
     func render(context:RenderContext) -> RenderContext {
         context + ["\(id)"]
@@ -52,7 +52,7 @@ extension Never: Layer {
 
 extension Layer {
     func _render(context:RenderContext) -> RenderContext  {
-        if let bottom = self as? RenderableLayer {
+        if let bottom = self as? _RenderableLayer {
             //print("Found a bottom \(id)")
             return bottom.render(context: context)
         } else {
@@ -64,45 +64,50 @@ extension Layer {
 
 @resultBuilder
 enum LayerBuilder {
-
-    //Should fix buildArray
-    public static func buildPartialBlock<L: Layer>(first: L) -> L {
+    
+    //Cannot be -> some Layer return for buildArray to work.
+    static func buildPartialBlock<L: Layer>(first: L) -> L {
         first
     }
     
-//    public static func buildPartialBlock<L: Layer>(first: L) -> some Layer {
-//        first
-//    }
-    
-    public static func buildPartialBlock<L0: Layer, L1: Layer>(accumulated: L0, next: L1) -> some Layer {
-        Tuple2Layer(first: accumulated, second: next)
+    static func buildPartialBlock<L0: Layer, L1: Layer>(accumulated: L0, next: L1) -> some Layer {
+        _TupleLayer(first: accumulated, second: next)
     }
     
-    static func buildArray<L:Layer>(_ components: [L]) -> ArrayLayer<L> {
-        ArrayLayer(from: components)
+    static func buildArray<L:Layer>(_ components: [L]) -> _ArrayLayer<L> {
+        _ArrayLayer(from: components)
     }
-
-//    public static func buildOptional<L: Layer>(_ component: L?) -> some Layer {
-//        ArrayLayer(from: component.map { [$0] } ?? [])
-//    }
     
-   static func buildExpression<L:Layer>(_ component: L?) -> ArrayLayer<L> {
-       ArrayLayer(from: component.map { [$0] } ?? [])
-   }
+    static func buildExpression<L:Layer>(_ component: L?) -> _ArrayLayer<L> {
+        _ArrayLayer(from: component.map { [$0] } ?? [])
+    }
+    
+    //Seems to work fine. TBD if need _WrappedLayer
+    static func buildOptional<L: Layer>(_ component: L?) -> some Layer {
+        _ArrayLayer(from: component.map { [$0] } ?? [])
+    }
+    
+    static func buildEither<First: Layer, Second: Layer>(first component: First) -> _Either<First, Second> {
+        _Either<First, Second>(storage: .first(component))
+    }
+    
+    static func buildEither<First: Layer, Second: Layer>(second component: Second) -> _Either<First, Second> {
+        _Either<First, Second>(storage: .second(component))
+    }
     
     
 }
 
 
-struct ArrayLayer<Element:Layer>:Layer, RenderableLayer  {
+struct _ArrayLayer<Element:Layer>:Layer, _RenderableLayer  {
     var id: String { "ArrayLayer" }
-
+    
     var elements: [Element]
-
+    
     public init(from elements:[Element]) {
         self.elements = elements
     }
-
+    
     func render(context:RenderContext) -> RenderContext {
         var myContext = context
         for element in elements {
@@ -121,7 +126,7 @@ struct ArrayLayer<Element:Layer>:Layer, RenderableLayer  {
 }
 
 
-struct Tuple2Layer<First:Layer, Second:Layer>: Layer, RenderableLayer {
+struct _TupleLayer<First:Layer, Second:Layer>: Layer, _RenderableLayer {
     //static var renderKey: String { "GlueLayer" }
     
     var id:String { "Tuple" }
@@ -140,6 +145,55 @@ struct Tuple2Layer<First:Layer, Second:Layer>: Layer, RenderableLayer {
     func ids(items:[String]) -> [String] {
         second._walk(items: first._walk(items: items))
     }
+}
+
+
+struct _Either<First: Layer, Second: Layer>: Layer, _RenderableLayer {
+    enum Storage {
+        case first(First)
+        case second(Second)
+    }
+    
+    var storage: Storage
+    
+    init(storage: Storage) {
+        self.storage = storage
+    }
+    
+    var id: String {
+        switch storage {
+        case .first(let storedLayer):
+            if let named = storedLayer as? _RenderableLayer {
+                return named.id
+            }
+        case .second(let storedLayer):
+            if let named = storedLayer as? _RenderableLayer {
+                return named.id
+            }
+        }
+        return "either"
+    }
+    
+
+    
+    func render(context:RenderContext) -> RenderContext {
+        switch storage {
+        case .first(let storedLayer):
+            return storedLayer._render(context: context)
+        case .second(let storedLayer):
+            return storedLayer._render(context: context)
+        }
+    }
+    
+    func ids(items:[String]) -> [String] {
+        switch storage {
+        case .first(let storedLayer):
+            return storedLayer._walk(items: items)
+        case .second(let storedLayer):
+            return storedLayer._walk(items: items)
+        }
+    }
+    
 }
 
 //----------------------------------------------------------------------
@@ -166,7 +220,7 @@ struct Stage<Body:Layer>:Layer {
 
 extension Layer {
     public func _walk(items:[String]) -> [String] {
-        if let bottom = self as? RenderableLayer {
+        if let bottom = self as? _RenderableLayer {
             //print("Found a bottom \(id)")
             return bottom.ids(items: items)
         } else {
@@ -176,27 +230,8 @@ extension Layer {
     }
 }
 
-extension RenderableLayer {
+extension _RenderableLayer {
     func ids(items:[String]) -> [String] {
         items + ["\(id)"]
     }
 }
-
-//struct IndentedAssembly<Element:Layer>:Layer, RenderableLayer  {
-//    var id: String { "Assembly2" }
-//
-//    var elements: [Element]
-//
-//    public init(elements:[Element]) {
-//        self.elements = elements
-//    }
-//
-//    func render(context:RenderContext) -> RenderContext {
-//        print(self)
-//        var holding = context
-//        for element in elements {
-//            holding = element._render(context: holding + ["\n\t"])
-//        }
-//        return holding
-//    }
-//}

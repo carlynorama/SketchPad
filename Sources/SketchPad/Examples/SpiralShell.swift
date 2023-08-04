@@ -83,9 +83,6 @@ public struct SpiralShell {
         return points
     }
     
-    
-
-    
     //Revised from https://stackoverflow.com/a/44164075/5946596
     //"Top", (low) indices, start at max z. Spiral is around Z axis.
     func generatePoints_SOV2(count:Int, radius:Double) -> [Vector] {
@@ -153,8 +150,6 @@ public struct SpiralShell {
         return Vector(x: x, y: y, z: z)
     }
     
-    
-    
     //Cleaned up for future use
     func generatePoints(count:Int, radius:Double) -> [Vector] {
         var points:[Vector] = []
@@ -173,10 +168,6 @@ public struct SpiralShell {
         }
         return points
     }
-    
-    
-    
-    
     
     func coolAccident(count:Int, radius:Double) -> [Vector] {
         var points:[Vector] = []
