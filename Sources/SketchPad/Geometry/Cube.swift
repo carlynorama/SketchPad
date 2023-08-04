@@ -8,11 +8,7 @@
 import Foundation
 
 
-extension Cube {
-    func render(context: RenderContext) -> RenderContext {
-        context + ["Cube"]
-    }
-}
+
 
 public struct Cube:Geometry {
     

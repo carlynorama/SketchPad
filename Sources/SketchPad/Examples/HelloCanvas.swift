@@ -24,13 +24,13 @@ public struct HelloLayers {
         return Stage {
             if !hello {
                 Sphere(radius:1).translateBy(Vector(x:3, y: 2, z: 5))
-                Cube(side: 3)
+                Cube(side: 3).color(red:0.5, green:0.5, blue:1.0)
                 //Sphere(radius:0.5).color(red:0.5, green:0.5, blue:1.0)
             }
             if hello {
                 Sphere(radius:0.5).color(red:0.5, green:0.5, blue:1.0)
             } else {
-                Cube(side: 4)
+                Cube(side: 4).color(red:0.0, green:0.0, blue:1.0).translateBy(Vector(x:-3, y: -2, z: -5))
             }
         }
     }
