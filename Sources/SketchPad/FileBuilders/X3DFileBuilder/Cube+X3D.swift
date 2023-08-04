@@ -23,7 +23,7 @@ extension Cube:X3DRenderable {
                 }
             }
             //<Box size="2 2 2"/>
-            "<Box size='\(self.side) \(self.side) \(self.side)'/></Box>"
+            "<Box size='\(self.side) \(self.side) \(self.side)'/>"
         }
         
         if !self.transformations.isEmpty {

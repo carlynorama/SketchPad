@@ -42,7 +42,7 @@ extension _ArrayLayer:_X3DRenderable {
 
 extension _TupleLayer:_X3DRenderable {
     func renderX3D(context:RenderContext) -> RenderContext {
-        second._render(context: first._renderX3D(context: context))
+        second._renderX3D(context: first._renderX3D(context: context))
     }
 }
 
