@@ -50,7 +50,7 @@ public struct RandomShell {
 
 Can be called / saved to file via code like 
 
-```
+```swift
 let layerStage = RandomShell().buildStage()
 
 let usdabuilder = USDAFileBuilder()
