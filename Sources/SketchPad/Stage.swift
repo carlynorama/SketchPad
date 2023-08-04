@@ -98,6 +98,7 @@ enum LayerBuilder {
     
 }
 
+//MARK: Internal "Renderable" Types
 
 struct _ArrayLayer<Element:Layer>:Layer, _RenderableLayer  {
     var id: String { "ArrayLayer" }
