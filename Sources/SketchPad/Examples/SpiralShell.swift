@@ -29,7 +29,8 @@ public struct SpiralShell {
     let goldenAngleCompliment = Double.pi * ((5.0).squareRoot() - 1.0) // 3.883222077450933
     let goldenAngleThree =  Double.pi * (1 + (5.0).squareRoot()) //10.166407384630519
 
-    public func buildStage() -> Stage {
+    //public func buildStage() -> Stage {
+    public func buildStage() -> some Layer {
         print(goldenAngle, goldenAngleCompliment, goldenAngleThree)
         let sun_color = 0.9
         let sphere_radius = radius*ratio

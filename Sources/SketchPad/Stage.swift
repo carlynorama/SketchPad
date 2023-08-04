@@ -65,9 +65,14 @@ extension Layer {
 @resultBuilder
 enum LayerBuilder {
 
-    public static func buildPartialBlock<L: Layer>(first: L) -> some Layer {
+    //Should fix buildArray
+    public static func buildPartialBlock<L: Layer>(first: L) -> L {
         first
     }
+    
+//    public static func buildPartialBlock<L: Layer>(first: L) -> some Layer {
+//        first
+//    }
     
     public static func buildPartialBlock<L0: Layer, L1: Layer>(accumulated: L0, next: L1) -> some Layer {
         Tuple2Layer(first: accumulated, second: next)
@@ -76,6 +81,15 @@ enum LayerBuilder {
     static func buildArray<L:Layer>(_ components: [L]) -> ArrayLayer<L> {
         ArrayLayer(from: components)
     }
+
+//    public static func buildOptional<L: Layer>(_ component: L?) -> some Layer {
+//        ArrayLayer(from: component.map { [$0] } ?? [])
+//    }
+    
+   static func buildExpression<L:Layer>(_ component: L?) -> ArrayLayer<L> {
+       ArrayLayer(from: component.map { [$0] } ?? [])
+   }
+    
     
 }
 
@@ -96,75 +110,13 @@ struct ArrayLayer<Element:Layer>:Layer, RenderableLayer  {
         }
         return myContext
     }
-}
-
-
-//public static func buildExpression(_ expression: Sphere) -> [Sphere] {
-//       [expression]
-//   }
-//
-//   public static func buildExpression(_ expression: Sphere?) -> [Sphere] {
-//       if let expression { return [expression] }
-//       else { return [] }
-//   }
-//
-//   public static func buildOptional(_ component: [Sphere]?) -> [Sphere] {
-//       component ?? []
-//   }
-//
-//   public static func buildEither(first component: [Sphere]) -> [Sphere] {
-//       component
-//   }
-//
-//   public static func buildEither(second component: [Sphere]) -> [Sphere] {
-//       component
-//   }
-//
-//   public static func buildArray(_ components: [[Sphere]]) -> [Sphere] {
-//       return components.flatMap { $0 }
-//   }
-
-
-
-
-//struct IndentedAssembly<Element:Layer>:Layer, RenderableLayer  {
-//    var id: String { "Assembly2" }
-//
-//    var elements: [Element]
-//
-//    public init(elements:[Element]) {
-//        self.elements = elements
-//    }
-//
-//    func render(context:RenderContext) -> RenderContext {
-//        print(self)
-//        var holding = context
-//        for element in elements {
-//            holding = element._render(context: holding + ["\n\t"])
-//        }
-//        return holding
-//    }
-//}
-
-
-struct TupleAnyLayer: Layer, RenderableLayer {
-    //static var renderKey: String { "GlueLayer" }
-
-    var id:String { "Tuple" }
-    var first: any Layer
-    var second: any Layer
-
-    init<L0:Layer, L1:Layer>(first:L0, second:L1) {
-        self.first = first
-        self.second = second
-    }
-
-    func render(context:RenderContext) -> RenderContext {
-        second._render(context: first._render(context: context))
-    }
-
+    
     func ids(items:[String]) -> [String] {
-        second._walk(items: first._walk(items: items))
+        var myItems = items
+        for element in elements {
+            myItems = element._walk(items: myItems)
+        }
+        return myItems
     }
 }
 
@@ -193,19 +145,21 @@ struct Tuple2Layer<First:Layer, Second:Layer>: Layer, RenderableLayer {
 //----------------------------------------------------------------------
 //MARK: Group Types
 
-public struct Stage:Layer {
-    var body:any Layer
-    public init(@LayerBuilder body: () -> some Layer) {
+//public struct Stage:Layer {
+//    var body:any Layer
+//    public init(@LayerBuilder body: () -> some Layer) {
+//        self.body = body()
+//    }
+//
+//
+//}
+
+struct Stage<Body:Layer>:Layer {
+    var body: Body
+    public init(@LayerBuilder body: () -> Body) {
         self.body = body()
     }
 }
-
-//struct Stage<Body:Layer>:Layer {
-//    var body: Body
-//    public init(@LayerBuilder body: () -> Body) {
-//        self.body = body()
-//    }
-//}
 
 //----------------------------------------------------------------------
 //MARK: Walk

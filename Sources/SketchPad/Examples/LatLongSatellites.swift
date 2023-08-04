@@ -21,7 +21,9 @@ public struct LatLongSatellites {
     
     let tau = Double.pi * 2
     
-    public func buildStage() -> Stage {
+    //public func buildStage() -> Stage {
+    public func buildStage() -> some Layer {
+        
         let sphere_radius = radius*ratio
         
         let base_lat_dy = 2.0/Double(parallelCount-1)

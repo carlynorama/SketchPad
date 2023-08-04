@@ -23,7 +23,8 @@ public struct RandomShell {
     let tau = Double.pi * 2
     let π = Double.pi
 
-    public func buildStage() -> Stage {
+    //public func buildStage() -> Stage {
+    public func buildStage() -> some Layer {
         let sun_color = 0.9
         let sphere_radius = radius*ratio
         return Stage {

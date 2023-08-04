@@ -20,7 +20,8 @@ public struct Ring {
     //TODO: Should be static on Canvas3D?
     let tau = Double.pi * 2
 
-    public func buildStage() -> Stage {
+    //public func buildStage() -> Stage {
+    public func buildStage() -> some Layer {
         let base_theta = tau/Double(count)
         //let color = 0.5
         let sphere_radius = radius*ratio

@@ -97,15 +97,15 @@ public struct USDAFileBuilder {
         shape.forUSDA()
     }
     
-    public func generateStringForStage(stage:Stage) -> String {
-        let document = Document {
-            generateHeader(defaultPrimID:stage.content[defaultPrimIndex].id)
-            for item in stage.content {
-                sphereBuilder(shape: item)
-            }
-        }
-        return document.render(style: .multilineIndented)
-    }
+    // public func generateStringForStage(stage:Stage) -> String {
+    //     let document = Document {
+    //         generateHeader(defaultPrimID:stage.content[defaultPrimIndex].id)
+    //         for item in stage.content {
+    //             sphereBuilder(shape: item)
+    //         }
+    //     }
+    //     return document.render(style: .multilineIndented)
+    // }
     
     public func generateStringForStage(stage:some Layer) -> String {
         let items = stage._walk(items: [])

@@ -94,19 +94,21 @@ public struct X3DFileBuilder {
         return content
     }
     
-    public func generateStringForStage(stage:Stage) -> String {
-        let document = Document {
-            TopMatter
-            Tag("X3D", attributes: X3DAttributes) {
-                head()
-                Tag("Scene") {
-                    for item in stage.content {
-                        sphereBuilder(shape: item)
-                    }
-                }
-            }
-        }
-        return document.render(style: .multilineIndented)
+    //TODO: Make X3D
+    public func generateStringForStage(stage:some Layer) -> String {
+        return "Not Yet."
+        // let document = Document {
+        //     TopMatter
+        //     Tag("X3D", attributes: X3DAttributes) {
+        //         head()
+        //         Tag("Scene") {
+        //             for item in stage.content {
+        //                 sphereBuilder(shape: item)
+        //             }
+        //         }
+        //     }
+        // }
+        // return document.render(style: .multilineIndented)
     }
 }
 

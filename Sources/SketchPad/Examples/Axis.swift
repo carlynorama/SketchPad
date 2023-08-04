@@ -15,7 +15,8 @@ public struct Axis {
     let radius:Double
     let ratio:Double
     
-    public func buildStage() -> Stage {
+    //public func buildStage() -> Stage {
+    public func buildStage() -> some Layer {
         
         let stride = radius/Double(count)
         let sphere_radius = stride * ratio
