@@ -2,7 +2,6 @@
 
 CLI and Library for generating 3D asset files with a SwiftUI-like DSL.
 
-
 The focus is .usda files, but also can generate X3D files.
 
 ## Example Usage
@@ -18,11 +17,9 @@ public struct RandomShell {
     let radius:Double
     let ratio:Double
 
-    //TODO: Should be static on Canvas3D
     let tau = Double.pi * 2
     let π = Double.pi
 
-    //public func buildStage() -> Stage {
     public func buildStage() -> some Layer {
         let sun_color = 0.9
         let sphere_radius = radius*ratio
@@ -37,9 +34,9 @@ public struct RandomShell {
                  
                  Sphere(radius: sphere_radius)
                  .color(
-                    red: cos(phi).magnitude,//theta/tau,
-                     green: cos(theta).magnitude, //Double.random(in: 0...1),
-                    blue: sin(phi).magnitude //tau/theta
+                    red: cos(phi).magnitude,
+                    green: cos(theta).magnitude, 
+                    blue: sin(phi).magnitude
                  )
                  .translateBy(Vector(x: x, y: y, z: z))
              }
