@@ -17,6 +17,7 @@ import XCTest
 final class USDFileBuilderTests: XCTestCase {
     
     static let defaultBuilder = USDAFileBuilder()
+    static let defaultUSDBuildable = Sphere(radius: 5)
     
     //This function was changed to use older version of
     //regex so package would be backwards compatible to MacOS 12
@@ -24,7 +25,7 @@ final class USDFileBuilderTests: XCTestCase {
     func headerMatch(_ toTest:String) -> Bool {
         
         let pattern = #"^#usda 1\.0\n\([\s\S]+\n\)$"#
-        var result = toTest.range(
+        let result = toTest.range(
             of: pattern,
             options: .regularExpression
         )
@@ -46,7 +47,7 @@ final class USDFileBuilderTests: XCTestCase {
     }
     
     func test_displayColorString() {
-        let colorString = Self.defaultBuilder.colorString(shape: Sphere(radius: 3).color(red: 0.1, green: 0.5, blue: 0.6))
+        let colorString = Self.defaultUSDBuildable.colorString(shape: Sphere(radius: 3).color(red: 0.1, green: 0.5, blue: 0.6))
         
         let expected = "color3f[] primvars:displayColor = [(0.1, 0.5, 0.6)]"
         
@@ -55,7 +56,7 @@ final class USDFileBuilderTests: XCTestCase {
     
     
     func test_extentString() {
-        let extentString = Self.defaultBuilder.extentString(shape: Sphere(radius: 2))
+        let extentString = Self.defaultUSDBuildable.extentString(shape: Sphere(radius: 2))
         
         let expected = "float3[] extent = [(-2.0, -2.0, -2.0), (2.0, 2.0, 2.0)]"
         
@@ -64,7 +65,7 @@ final class USDFileBuilderTests: XCTestCase {
     
     
     func test_transfomrString() {
-        let transformStringNode = Self.defaultBuilder.transformStringNode(shape: Sphere(radius: 2).translateBy(Vector(x: 3, y: 2, z: 1)))
+        let transformStringNode = Self.defaultUSDBuildable.transformStringNode(shape: Sphere(radius: 2).translateBy(Vector(x: 3, y: 2, z: 1)))
         
         let expected = StringNode {
             "double3 xformOp:translate = (3.0, 2.0, 1.0)"
@@ -79,7 +80,7 @@ final class USDFileBuilderTests: XCTestCase {
             .translateBy(Vector(x: 3, y: 2, z: 1))
             .color(red: 0.1, green: 0.5, blue: 0.6)
         
-        let result = Self.defaultBuilder.sphereBuilder(shape: mySphere)
+        let result = mySphere.forUSDA()
         
         let document = Document {
             result
