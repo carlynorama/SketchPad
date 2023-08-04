@@ -15,8 +15,9 @@ public struct MultiBallStage {
     let minRadius = 0.8
     let maxRadius = 2.0
 
-    public func buildStage() -> Canvas3D {
-        Canvas3D {
+    //public func buildStage() -> Stage {
+    public func buildStage() -> some Layer {
+        Stage {
             Sphere(radius: 1.0).color(red: 0, green: 0, blue: 1.0)
              for _ in 0..<count {
                  Sphere(radius: Double.random(in: minRadius...maxRadius))

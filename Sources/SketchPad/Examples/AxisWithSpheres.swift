@@ -19,7 +19,8 @@ public struct AxisWithSpheres {
     
     let π = Double.pi
     
-    public func buildStage() -> Canvas3D {
+    //public func buildStage() -> Stage {
+    public func buildStage() -> some Layer {
         
         let stride = radius/Double(count)
         let sphere_radius = stride * ratio
@@ -31,7 +32,7 @@ public struct AxisWithSpheres {
         let polar = π/4
         let azimuthal = π/8
         
-        return Canvas3D {
+        return Stage {
             Sphere(radius: sphere_radius*3)
                 .color(red: 0.1, green: 0.8, blue: 1)
                 .translateBy(sphericalCoordinate(xyPlane: polar, xzPlane: azimuthal).scaled(by: r))

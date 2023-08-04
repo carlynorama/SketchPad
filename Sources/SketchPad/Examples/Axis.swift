@@ -15,11 +15,12 @@ public struct Axis {
     let radius:Double
     let ratio:Double
     
-    public func buildStage() -> Canvas3D {
+    //public func buildStage() -> Stage {
+    public func buildStage() -> some Layer {
         
         let stride = radius/Double(count)
         let sphere_radius = stride * ratio
-        return Canvas3D {
+        return Stage {
             for i in 0...count {
                 Sphere(radius: sphere_radius)
                     .color(

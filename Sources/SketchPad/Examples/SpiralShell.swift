@@ -29,12 +29,13 @@ public struct SpiralShell {
     let goldenAngleCompliment = Double.pi * ((5.0).squareRoot() - 1.0) // 3.883222077450933
     let goldenAngleThree =  Double.pi * (1 + (5.0).squareRoot()) //10.166407384630519
 
-    public func buildStage() -> Canvas3D {
+    //public func buildStage() -> Stage {
+    public func buildStage() -> some Layer {
         print(goldenAngle, goldenAngleCompliment, goldenAngleThree)
         let sun_color = 0.9
         let sphere_radius = radius*ratio
         let points = generatePoints_SOV2(count: count, radius:radius)
-        return Canvas3D {
+        return Stage {
             Sphere(radius: sphere_radius).color(red: sun_color, green: sun_color, blue: sun_color)
              for point in points {
                  Sphere(radius: sphere_radius)
@@ -81,9 +82,6 @@ public struct SpiralShell {
         }
         return points
     }
-    
-    
-
     
     //Revised from https://stackoverflow.com/a/44164075/5946596
     //"Top", (low) indices, start at max z. Spiral is around Z axis.
@@ -152,8 +150,6 @@ public struct SpiralShell {
         return Vector(x: x, y: y, z: z)
     }
     
-    
-    
     //Cleaned up for future use
     func generatePoints(count:Int, radius:Double) -> [Vector] {
         var points:[Vector] = []
@@ -172,10 +168,6 @@ public struct SpiralShell {
         }
         return points
     }
-    
-    
-    
-    
     
     func coolAccident(count:Int, radius:Double) -> [Vector] {
         var points:[Vector] = []
