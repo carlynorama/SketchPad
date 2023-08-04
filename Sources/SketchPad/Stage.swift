@@ -1,9 +1,17 @@
 //
-//  Canvas3D_v2.swift
+//  Stage.swift
 //
 //
 //  Created by Carlyn Maw on 8/2/23.
 //
+
+
+//https://talk.objc.io/episodes/S01E225-view-protocols-and-shapes
+//https://talk.objc.io/episodes/S01E343-swiftui-style-backend-library
+//https://forums.swift.org/t/swiftui-viewbuilder-result-is-a-tupleview-how-is-apple-using-it-and-able-to-avoid-turning-things-into-anyview/28181
+//https://github.com/apple/swift-certificates/blob/8debe3f20df931a29d0e5834fd8101fb49feea42/Sources/X509/Verifier/AnyPolicy.swift#L41
+
+
 
 import Foundation
 
@@ -64,7 +72,102 @@ enum LayerBuilder {
     public static func buildPartialBlock<L0: Layer, L1: Layer>(accumulated: L0, next: L1) -> some Layer {
         Tuple2Layer(first: accumulated, second: next)
     }
+    
+    static func buildArray<L:Layer>(_ components: [L]) -> ArrayLayer<L> {
+        ArrayLayer(from: components)
+    }
+    
 }
+
+
+struct ArrayLayer<Element:Layer>:Layer, RenderableLayer  {
+    var id: String { "ArrayLayer" }
+
+    var elements: [Element]
+
+    public init(from elements:[Element]) {
+        self.elements = elements
+    }
+
+    func render(context:RenderContext) -> RenderContext {
+        var myContext = context
+        for element in elements {
+            myContext = element._render(context: myContext)
+        }
+        return myContext
+    }
+}
+
+
+//public static func buildExpression(_ expression: Sphere) -> [Sphere] {
+//       [expression]
+//   }
+//
+//   public static func buildExpression(_ expression: Sphere?) -> [Sphere] {
+//       if let expression { return [expression] }
+//       else { return [] }
+//   }
+//
+//   public static func buildOptional(_ component: [Sphere]?) -> [Sphere] {
+//       component ?? []
+//   }
+//
+//   public static func buildEither(first component: [Sphere]) -> [Sphere] {
+//       component
+//   }
+//
+//   public static func buildEither(second component: [Sphere]) -> [Sphere] {
+//       component
+//   }
+//
+//   public static func buildArray(_ components: [[Sphere]]) -> [Sphere] {
+//       return components.flatMap { $0 }
+//   }
+
+
+
+
+//struct IndentedAssembly<Element:Layer>:Layer, RenderableLayer  {
+//    var id: String { "Assembly2" }
+//
+//    var elements: [Element]
+//
+//    public init(elements:[Element]) {
+//        self.elements = elements
+//    }
+//
+//    func render(context:RenderContext) -> RenderContext {
+//        print(self)
+//        var holding = context
+//        for element in elements {
+//            holding = element._render(context: holding + ["\n\t"])
+//        }
+//        return holding
+//    }
+//}
+
+
+struct TupleAnyLayer: Layer, RenderableLayer {
+    //static var renderKey: String { "GlueLayer" }
+
+    var id:String { "Tuple" }
+    var first: any Layer
+    var second: any Layer
+
+    init<L0:Layer, L1:Layer>(first:L0, second:L1) {
+        self.first = first
+        self.second = second
+    }
+
+    func render(context:RenderContext) -> RenderContext {
+        second._render(context: first._render(context: context))
+    }
+
+    func ids(items:[String]) -> [String] {
+        second._walk(items: first._walk(items: items))
+    }
+}
+
 
 struct Tuple2Layer<First:Layer, Second:Layer>: Layer, RenderableLayer {
     //static var renderKey: String { "GlueLayer" }
