@@ -18,6 +18,8 @@ Will run the multiball script, creating a usd file and and x3d file with default
 
 Not specifying multiball means whatever sketch I currently left as the default sketch will run. Will likely be the contents of ScratchPad. 
 
+![Example of a usdrecord rendered multiball outputted usd file](multiball_example.png)
+
 
 ### Writing a Sketch
 
