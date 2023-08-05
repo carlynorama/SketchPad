@@ -4,6 +4,8 @@ CLI and Library for generating 3D asset files with a SwiftUI-like DSL.
 
 The focus is .usda files, but also can generate X3D files. 
 
+For additional information see the devlog at https://www.whynotestflight.com
+
 ## Example Usage
 
 
