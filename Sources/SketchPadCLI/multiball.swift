@@ -29,9 +29,9 @@ extension SketchPadCLI {
         func run() {
             let stage = MultiBallStage(count:count).buildStage()
             let fileBuilder_x3d = X3DFileBuilder()//USDAFileBuilder()
-            let fileString_x3d:String = fileBuilder_x3d.generateStringForStage(stage: stage)
+            let fileString_x3d:String = fileBuilder_x3d.generateString(for: stage)
             let fileBuilder_usd = USDAFileBuilder()//USDAFileBuilder()
-            let fileString_usd:String = fileBuilder_usd.generateStringForStage(stage: stage)
+            let fileString_usd:String = fileBuilder_usd.generateString(for: stage)
             
             if saveToFile || customPath != nil {
                 let timeStamp = FileIO.timeStamp()

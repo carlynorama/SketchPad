@@ -77,23 +77,7 @@ public struct X3DFileBuilder {
         return formatter.string(from: Date())
     }
     
-
-    
-
-    
-
-    
-//    public func generateStringForStage(stage:some Layer) -> String {
-//        let items = stage._walk(items: [])
-//        let document = Document {
-//            stage._render(context: [generateHeader(defaultPrimID:items[defaultPrimIndex])])
-//        }
-//
-//        return document.render(style: .multilineIndented)
-//    }
-    
-    //TODO: Make X3D
-    public func generateStringForStage(stage:some Layer) -> String {
+    public func generateString(for stage:some Layer) -> String {
         let content = stage._renderX3D(context: [])
          let document = Document {
              TopMatter
@@ -101,7 +85,6 @@ public struct X3DFileBuilder {
                  head()
                  Tag("Scene") {
                      content
-                     //"HELLO!"
                  }
              }
          }

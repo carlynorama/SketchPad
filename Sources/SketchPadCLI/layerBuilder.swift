@@ -28,15 +28,15 @@ extension SketchPadCLI {
             print(layerStage)
             //print(builder.generateStringForStage(stage: layerStage))
             let path_l = "testLayerUSD_\(FileIO.timeStamp()).usd"
-            FileIO.writeToFile(string:builder.generateStringForStage(stage:layerStage), filePath: path_l)
+            FileIO.writeToFile(string:builder.generateString(for:layerStage), filePath: path_l)
             
             let results = layerStage._walk(items: [])
             print(results)
             
             let builderX3D = X3DFileBuilder()
-            print(builderX3D.generateStringForStage(stage: layerStage))
+            print(builderX3D.generateString(for: layerStage))
             let path_x3d = "layers_\(FileIO.timeStamp()).x3d"
-            FileIO.writeToFile(string:builderX3D.generateStringForStage(stage: layerStage), filePath: path_x3d)
+            FileIO.writeToFile(string:builderX3D.generateString(for: layerStage), filePath: path_x3d)
 
         }
     }
