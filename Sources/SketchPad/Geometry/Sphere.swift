@@ -43,11 +43,6 @@ public struct Sphere:Geometry {
     
 }
 
-// struct Cube:Geometry {
-//     let side:Double
-
-//     var transformations:[Transformation]
-// }
 
 // struct Box:Geometry {
 //     let side_x:Double

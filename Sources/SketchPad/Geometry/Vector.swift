@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  Vector.swift
 //  
 //
-//  Created by Labtanza on 8/3/23.
+//  Created by Carlyn Maw on 8/3/23.
 //
 
 import Foundation

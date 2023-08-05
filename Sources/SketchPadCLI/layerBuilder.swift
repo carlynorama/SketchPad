@@ -19,14 +19,14 @@ extension SketchPadCLI {
             //let result = "Alice"
             //print(result)
             let builder = USDAFileBuilder()
-            let stage = HelloCanvas().buildStage()
-            print(builder.generateStringForStage(stage:stage))
-            let path =  "testUSD_\(FileIO.timeStamp()).usd"
-            FileIO.writeToFile(string:builder.generateStringForStage(stage:stage), filePath: path)
+//           let stage = HelloCanvas().buildStage()
+//            print(builder.generateStringForStage(stage:stage))
+//            let path =  "testUSD_\(FileIO.timeStamp()).usd"
+//            FileIO.writeToFile(string:builder.generateStringForStage(stage:stage), filePath: path)
 
             let layerStage = HelloLayers().buildStage()
             //print(layerStage)
-            print(builder.generateStringForStage(stage: layerStage))
+            //print(builder.generateStringForStage(stage: layerStage))
             let path_l = "testLayerUSD_\(FileIO.timeStamp()).usd"
             FileIO.writeToFile(string:builder.generateStringForStage(stage:layerStage), filePath: path_l)
             
