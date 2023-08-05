@@ -15,6 +15,7 @@ public protocol Surfaceable {
     //func emissiveColor(red:Double, green:Double, blue:Double) -> Self
     func color(red:Double, green:Double, blue:Double) -> Self
 }
+
 public extension Surfaceable {
     func color(red:Double, green:Double, blue:Double) -> Self {
         var copy = self

@@ -12,8 +12,6 @@ public enum Transformation {
     case translate(Vector)
 }
 
-
-
 public protocol Transformable {
     var transformations:[Transformation] { get set }
     mutating func translateBy(_ vector:Vector) -> Self
