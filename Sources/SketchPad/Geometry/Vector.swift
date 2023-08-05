@@ -1,12 +1,13 @@
 //
-//  File.swift
+//  Vector.swift
 //  
 //
-//  Created by Labtanza on 8/3/23.
+//  Created by Carlyn Maw on 8/3/23.
 //
 
 import Foundation
 
+//No simd or accelerate for now. Not pumping these in quantity to a screen. 
 public struct Vector:Hashable {
     let x:Double
     let y:Double

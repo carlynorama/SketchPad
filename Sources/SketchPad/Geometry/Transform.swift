@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  Transform.swift
 //  
 //
-//  Created by Labtanza on 8/3/23.
+//  Created by Carlyn Maw on 8/3/23.
 //
 
 import Foundation
@@ -11,8 +11,6 @@ import Foundation
 public enum Transformation {
     case translate(Vector)
 }
-
-
 
 public protocol Transformable {
     var transformations:[Transformation] { get set }

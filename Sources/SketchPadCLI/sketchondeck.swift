@@ -11,8 +11,12 @@ import SketchPad
 
 
 extension SketchPadCLI {
-    struct testsketch:ParsableCommand {
-        @Flag(name: [.customLong("save"), .customShort("s")], help: "Will save to file called \"testsketch_$TIMESTAMP.usda\" instead of printing to stdout")
+    struct sketchondeck:ParsableCommand {
+        
+        static let sketch = LatLongSatellites(meridianCount: 10, parallelCount: 10, radius: 12)
+        static let fileNameStub = "satellites"
+        
+        @Flag(name: [.customLong("save"), .customShort("s")], help: "Will save to file called \"\(Self.fileNameStub)_$TIMESTAMP.usda\" instead of printing to stdout")
         var saveToFile = false
         
         @Option(name: [.customLong("output"), .customShort("o")], help: "Will save to custom path instead of printing to stdout")
@@ -31,20 +35,20 @@ extension SketchPadCLI {
         CommandConfiguration(abstract: "Generate a USDA file that references sphere_base.usda like previous examples. 12 + blue origin ball is the default count")
         
         func run() {
-            //let stage = Ring(count:18, radius: 12).buildStage()
             
-            let stage = LatLongSatellites(meridianCount: 10, parallelCount: 10, radius: 12).buildStage()
+            let stage = Self.sketch.buildStage()
             
-            let fileBuilder_x3d = X3DFileBuilder()//USDAFileBuilder()
-            let fileString_x3d:String = fileBuilder_x3d.generateStringForStage(stage: stage)
-            let fileBuilder_usd = USDAFileBuilder()//USDAFileBuilder()
-            let fileString_usd:String = fileBuilder_usd.generateStringForStage(stage: stage)
+            let fileBuilder_x3d = X3DFileBuilder()
+            let fileString_x3d:String = fileBuilder_x3d.generateString(for: stage)
+            
+            let fileBuilder_usd = USDAFileBuilder()
+            let fileString_usd:String = fileBuilder_usd.generateString(for: stage)
             
             if saveToFile || customPath != nil {
                 let timeStamp = FileIO.timeStamp()
-                let path = customPath ?? "testsketch_\(timeStamp).usda"
+                let path = customPath ?? "\(Self.fileNameStub)_\(timeStamp).usda"
                 saveFile(fileString: fileString_usd, path: path)
-                let path_x3d = "testsketch_\(timeStamp).x3d"
+                let path_x3d = "\(Self.fileNameStub)_\(timeStamp).x3d"
                 saveFile(fileString: fileString_x3d, path: path_x3d)
             } else {
                 print(fileString_usd)

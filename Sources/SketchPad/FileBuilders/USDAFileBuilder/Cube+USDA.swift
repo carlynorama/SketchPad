@@ -15,10 +15,10 @@ extension Cube {
 
 extension Cube:USDRenderable {
     //TODO: How is the side specified?
-    func  radiusString(_ radius:Double) -> String {
-        "double radius = \(radius)"
-    }
-    
+//    func  radiusString(_ radius:Double) -> String {
+//        "double radius = \(radius)"
+//    }
+//    
     func forUSDA() -> StringNodeable {
         CurlyBraced(opening: "def Xform \"\(self.id)\"", style: .expanded) {
             

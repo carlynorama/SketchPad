@@ -107,7 +107,7 @@ public struct USDAFileBuilder {
     //     return document.render(style: .multilineIndented)
     // }
     
-    public func generateStringForStage(stage:some Layer) -> String {
+    public func generateString(for stage:some Layer) -> String {
         let items = stage._walk(items: [])
         let document = Document {
             stage._render(context: [generateHeader(defaultPrimID:items[defaultPrimIndex])])

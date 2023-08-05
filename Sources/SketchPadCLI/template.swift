@@ -1,8 +1,8 @@
 //
-//  SketchPadCLI/multiball.swift
+//  SketchPadCLI/template.swift
 //
 //
-//  Created by Carlyn Maw on 7/11/23.
+//  Created by Carlyn Maw on 7/11/25.
 //
 
 import Foundation
@@ -11,33 +11,44 @@ import SketchPad
 
 
 extension SketchPadCLI {
-    struct multiball:ParsableCommand {
-        @Flag(name: [.customLong("save"), .customShort("s")], help: "Will save to file called \"multiball_$TIMESTAMP.usda\" instead of printing to stdout")
+    struct template:ParsableCommand {
+        
+        static let sketch = LatLongSatellites(meridianCount: 10, parallelCount: 10, radius: 12)
+        static let fileNameStub = "satellites"
+        
+        @Flag(name: [.customLong("save"), .customShort("s")], help: "Will save to file called \"\(Self.fileNameStub)_$TIMESTAMP.usda\" instead of printing to stdout")
         var saveToFile = false
         
         @Option(name: [.customLong("output"), .customShort("o")], help: "Will save to custom path instead of printing to stdout")
         var customPath:String? = nil
         
         @Option(name: [.customLong("count"), .customShort("c")],
-                help: "Number of spheres to generate in addition to the blue origin sphere. Default is 18")
-        var count:Int = 18
+                help: "Number of spheres to generate in addition to the blue origin sphere. Default is 12")
+        var count:Int = 199
+        
+        @Option(name: [.customLong("radius"), .customShort("r")],
+                help: "Number of spheres to generate in addition to the blue origin sphere. Default is 12")
+        var radius:Double = 12
         
         
         static var configuration =
         CommandConfiguration(abstract: "Generate a USDA file that references sphere_base.usda like previous examples. 12 + blue origin ball is the default count")
         
         func run() {
-            let stage = MultiBallStage(count:count).buildStage()
-            let fileBuilder_x3d = X3DFileBuilder()//USDAFileBuilder()
+            
+            let stage = Self.sketch.buildStage()
+            
+            let fileBuilder_x3d = X3DFileBuilder()
             let fileString_x3d:String = fileBuilder_x3d.generateString(for: stage)
-            let fileBuilder_usd = USDAFileBuilder()//USDAFileBuilder()
+            
+            let fileBuilder_usd = USDAFileBuilder()
             let fileString_usd:String = fileBuilder_usd.generateString(for: stage)
             
             if saveToFile || customPath != nil {
                 let timeStamp = FileIO.timeStamp()
-                let path = customPath ?? "multiball_\(timeStamp).usda"
+                let path = customPath ?? "\(Self.fileNameStub)_\(timeStamp).usda"
                 saveFile(fileString: fileString_usd, path: path)
-                let path_x3d = "multiball_\(timeStamp).x3d"
+                let path_x3d = "\(Self.fileNameStub)_\(timeStamp).x3d"
                 saveFile(fileString: fileString_x3d, path: path_x3d)
             } else {
                 print(fileString_usd)

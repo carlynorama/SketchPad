@@ -1,16 +1,11 @@
 //
-//  File.swift
+//  Surfaceable.swift
 //  
 //
-//  Created by Labtanza on 8/3/23.
+//  Created by Carlyn Maw on 8/3/23.
 //
 
 import Foundation
-
-
-
-
-
 
 
 //TODO: Not a fan of this word. Skinnable? Imagable?
@@ -20,6 +15,7 @@ public protocol Surfaceable {
     //func emissiveColor(red:Double, green:Double, blue:Double) -> Self
     func color(red:Double, green:Double, blue:Double) -> Self
 }
+
 public extension Surfaceable {
     func color(red:Double, green:Double, blue:Double) -> Self {
         var copy = self
