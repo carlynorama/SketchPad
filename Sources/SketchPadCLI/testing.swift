@@ -11,7 +11,7 @@ import ArgumentParser
 import SketchPad
 
 extension SketchPadCLI {
-    struct layerBuilder:ParsableCommand {
+    struct testing:ParsableCommand {
         
         func run() {
             
@@ -24,7 +24,7 @@ extension SketchPadCLI {
 //            let path =  "testUSD_\(FileIO.timeStamp()).usd"
 //            FileIO.writeToFile(string:builder.generateStringForStage(stage:stage), filePath: path)
 
-            let layerStage = HelloLayers().buildStage()
+            let layerStage = ScratchPad().buildStage()
             print(layerStage)
             //print(builder.generateStringForStage(stage: layerStage))
             let path_l = "testLayerUSD_\(FileIO.timeStamp()).usd"

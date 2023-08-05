@@ -10,15 +10,11 @@ import ArgumentParser
 import SketchPad
 
 extension SketchPadCLI {
-    struct testBuilder:ParsableCommand {
+    struct hello:ParsableCommand {
         
         func run() {
-            
-            
-            //let result = "Alice"
-            //print(result)
             let builder = USDAFileBuilder()
-            let stage = HelloCanvas().buildStage()
+            let stage = Hello().buildStage()
             print(builder.generateString(for:stage))
             let path =  "testUSD_\(FileIO.timeStamp()).usd"
             FileIO.writeToFile(string:builder.generateString(for:stage), filePath: path)
