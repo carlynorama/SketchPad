@@ -61,14 +61,17 @@ FileIO.writeToFile(string:x3dbuilder.generateStringForStage(stage:layerStage), f
 
 ## Upcoming Roadmap
 - [x] rewrite to allow for multiple primitive types
-- [] update tests to reflect refactor
+- [x] update tests to reflect refactor
+- [x] add cube type
+- [] add additional tests
 - [] add optional "[USDServiceProvider](https://github.com/carlynorama/USDServiceProvider)" to check files / make crates for importing into other Swift projects.  
-- [] fix adding colors / materials
+- [] fix adding colors / materials (X3D has color function not currently using)
 - [] add additional primitives
 - [] make an "Assembly" or other group type
 - [] make an "over" 
 - [] add meshes
 - [] add camera
+- [] add animation
 
 
 
