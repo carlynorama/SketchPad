@@ -227,3 +227,18 @@ extension _RenderableLayer {
         items + ["\(id)"]
     }
 }
+
+
+// struct AnyLayer : Layer {
+
+//     private let item: any Layer
+//     private let type
+
+//     init<L:Layer>(_ item: L) {
+//         self.item = item as any Layer
+//         self.type = L.Type
+//     }
+
+//     // MARK: ItemProtocol
+//     var content: some Layer { return item.content as type }
+// }
