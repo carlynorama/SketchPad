@@ -21,7 +21,7 @@ public struct Axis {
         let stride = radius/Double(count)
         let sphere_radius = stride * ratio
         return Stage {
-            for i in 0...count {
+            ForEach(0...count) { i in 
                 Sphere(radius: sphere_radius)
                     .color(
                         red: 1,
@@ -30,7 +30,7 @@ public struct Axis {
                     )
                     .translateBy(Vector(x: Double(i)*stride, y: 0, z: 0))
             }
-            for i in 0...count {
+            ForEach(0...count) { i in 
                 Sphere(radius: sphere_radius)
                     .color(
                         red: 0,
@@ -39,7 +39,7 @@ public struct Axis {
                     )
                     .translateBy(Vector(x: 0, y: Double(i)*stride, z: 0))
             }
-            for i in 0...count {
+            ForEach(0...count) { i in 
                 Sphere(radius: sphere_radius)
                     .color(
                         red: 0,

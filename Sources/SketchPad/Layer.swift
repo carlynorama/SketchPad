@@ -74,9 +74,12 @@ enum LayerBuilder {
         _TupleLayer(first: accumulated, second: next)
     }
     
-    static func buildArray<L:Layer>(_ components: [L]) -> _ArrayLayer<L> {
-        _ArrayLayer(from: components)
-    }
+    //This enables "for...in" within the layer builder, BUT that's NOT A LOOP!
+    //It is an implicitly returning closure. Yuck.
+    //NEVER use. (2023)
+    //    static func buildArray<L:Layer>(_ components: [L]) -> _ArrayLayer<L> {
+    //        _ArrayLayer(from: components)
+    //    }
     
     //Causes error in playground.
     static func buildExpression<L:Layer>(_ expression: L) -> L {
@@ -186,7 +189,7 @@ struct _Either<First: Layer, Second: Layer>: Layer, _RenderableLayer {
         return "either"
     }
     
-
+    
     
     func render(context:RenderContext) -> RenderContext {
         switch storage {
@@ -227,3 +230,103 @@ extension _RenderableLayer {
         items + ["\(id)"]
     }
 }
+
+//MARK: Structures
+
+//TODO: This is just a special constructor for a ForEach
+//I like having it, but it's really a subclass.
+//Should it remember its stride information? Would that be useful to the render step?
+//That would make it more semiworthy
+public struct IndexedLoop<Content:Layer>:Layer, _RenderableLayer  {
+    var id: String { "Repeating" }
+    //var count:Int
+    
+    var elements: [Content]
+    
+    public init(count:Int, startingAt start:Int = 0, by increment:Int = 1, @LayerBuilder content: (Int) -> Content) {
+        self.elements = []
+        let limit = start + (count * increment)
+        for index in stride(from: start, to: limit, by: increment) {
+            self.elements.append(content(index))
+        }
+    }
+    
+    public init(_ range:Range<Int>, @LayerBuilder content: (Int) -> Content) {
+        self.elements = ForEach(range, content: content).elements
+    }
+    
+    public init(_ range:ClosedRange<Int>, @LayerBuilder content: (Int) -> Content) {
+        self.elements = ForEach(range, content: content).elements
+    }
+
+    
+    //TODO: Change name to Loop?
+//    public init(_ range:Range<Int>, @LayerBuilder content: () -> Content) {
+//        func newContent(i:Int) -> Content { content() }
+//        self.elements = ForEach(range, content: newContent).elements
+//    }
+    
+    
+    func render(context:RenderContext) -> RenderContext {
+        var myContext = context
+        for element in elements {
+            myContext = element._render(context: myContext)
+        }
+        return myContext
+    }
+    
+    func ids(items:[String]) -> [String] {
+        var myItems = items
+        for element in elements {
+            myItems = element._walk(items: myItems)
+        }
+        return myItems
+    }
+}
+
+
+
+public struct ForEach<Content:Layer>:Layer, _RenderableLayer  {
+    var id: String { "Repeating" }
+    //var count:Int
+    
+    var elements: [Content]
+    
+    public init<E>(_ sequence:some Sequence<E>, @LayerBuilder content: (E) -> Content) {
+        self.elements = []
+        for item in sequence {
+            self.elements.append(content(item))
+        }
+    }
+    
+    func render(context:RenderContext) -> RenderContext {
+        var myContext = context
+        for element in elements {
+            myContext = element._render(context: myContext)
+        }
+        return myContext
+    }
+    
+    func ids(items:[String]) -> [String] {
+        var myItems = items
+        for element in elements {
+            myItems = element._walk(items: myItems)
+        }
+        return myItems
+    }
+}
+
+
+// struct AnyLayer : Layer {
+
+//     private let item: any Layer
+//     private let type
+
+//     init<L:Layer>(_ item: L) {
+//         self.item = item as any Layer
+//         self.type = L.Type
+//     }
+
+//     // MARK: ItemProtocol
+//     var content: some Layer { return item.content as type }
+// }

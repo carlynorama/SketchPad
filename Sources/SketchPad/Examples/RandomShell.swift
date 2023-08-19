@@ -29,7 +29,8 @@ public struct RandomShell {
         let sphere_radius = radius*ratio
         return Stage {
             Sphere(radius: sphere_radius).color(red: sun_color, green: sun_color, blue: sun_color)
-             for _ in 0..<count {
+             //for _ in 0..<count { <- Lies. Not a loop. A closure with an implicit return. 
+            IndexedLoop(count: count) { _ in
                  let theta = Double.random(in: 0...π)
                  let phi = Double.random(in: 0...tau)
                  let x = radius * sin(theta) * cos(phi)

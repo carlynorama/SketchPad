@@ -19,7 +19,8 @@ public struct MultiBallStage {
     public func buildStage() -> some Layer {
         Stage {
             Sphere(radius: 1.0).color(red: 0, green: 0, blue: 1.0)
-             for _ in 0..<count {
+             //for _ in 0..<count { //<- still a lie. still sad.
+            IndexedLoop(count: count) { _ in
                  Sphere(radius: Double.random(in: minRadius...maxRadius))
                  .color(
                      red: Double.random(in: 0...1), 

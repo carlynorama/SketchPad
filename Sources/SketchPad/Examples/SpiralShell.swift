@@ -37,7 +37,7 @@ public struct SpiralShell {
         let points = generatePoints_SOV2(count: count, radius:radius)
         return Stage {
             Sphere(radius: sphere_radius).color(red: sun_color, green: sun_color, blue: sun_color)
-             for point in points {
+             ForEach(points) { point in
                  Sphere(radius: sphere_radius)
                  .color(
                     red: (point.x/radius).magnitude,

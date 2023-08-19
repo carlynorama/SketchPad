@@ -33,8 +33,10 @@ public struct LatLongSatellites {
         var coordinateSet:Set<Vector> = []
         
         return Stage {
-            for i in 0..<parallelCount {
-                for j in 0..<meridianCount {
+            //for i in 0..<parallelCount {
+            IndexedLoop(count: parallelCount) { i in
+                //for j in 0..<meridianCount {
+                IndexedLoop(count: meridianCount) { j in
                     makeSphere(parallel: i, meridian: j)
                 }
             }

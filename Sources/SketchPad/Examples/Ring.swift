@@ -27,7 +27,8 @@ public struct Ring {
         let sphere_radius = radius*ratio
         return Stage {
             Sphere(radius: sphere_radius).color(red: 0.18, green: 0.18, blue: 0.18)
-             for i in 0..<count {
+            //for i in 0..<count { <- A lie in a result builder.
+            IndexedLoop(count: count) { i in
                  let theta = base_theta * Double(i)
                  let x = cos(theta) * radius
                  let y = sin(theta) * radius
