@@ -40,7 +40,7 @@ public struct AxisWithSpheres {
                 .color(red: 1, green: 0.8, blue: 0.1)
                 .translateBy(sphericalCoordinate(theta: polar, phi: azimuthal).scaled(by: r))
             
-            for i in 0...count {
+            ForEach(0...count) { i in 
                 Sphere(radius: sphere_radius)
                     .color(
                         red: 1,
@@ -49,7 +49,7 @@ public struct AxisWithSpheres {
                     )
                     .translateBy(Vector(x: Double(i)*stride, y: 0, z: 0))
             }
-            for i in 0...count {
+            ForEach(0...count) { i in 
                 Sphere(radius: sphere_radius)
                     .color(
                         red: 0,
@@ -58,7 +58,7 @@ public struct AxisWithSpheres {
                     )
                     .translateBy(Vector(x: 0, y: Double(i)*stride, z: 0))
             }
-            for i in 0...count {
+            ForEach(0...count) { i in 
                 Sphere(radius: sphere_radius)
                     .color(
                         red: 0,
